@@ -1,7 +1,9 @@
-name: CI
+name: Code Standards & Quality
 
 on:
   pull_request:
+    branches:
+      - main
     types:
       - opened
       - edited
@@ -37,6 +39,9 @@ jobs:
 
       - name: "📝 Checking code format"
         run: npm run format:check
+
+      - name: "💪 Type Checking"
+        run: npx astro check
 
       - name: "🚀 Build the project"
         run: npm run build
