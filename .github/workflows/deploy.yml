@@ -1,0 +1,40 @@
+name: Deploy to Github Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  code_quality:
+    uses: ./.github/workflows/code-standards-checks.yml
+    with:
+      node-version: "18.x"
+
+  build:
+    needs: code_quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛫 Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install, build, and upload site
+        uses: withastro/action@v3
+        with:
+          node-version: "18.x"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

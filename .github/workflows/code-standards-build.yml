@@ -1,0 +1,22 @@
+name: Code Standards & Build
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  code_quality:
+    strategy:
+      matrix:
+        node-versions: [18.x]
+
+    uses: ./.github/workflows/code-standards-checks.yml
+    with:
+      node-version: ${{ matrix.node-versions }}
+      run-build: true
