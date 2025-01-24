@@ -1,7 +1,8 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://astro-paper.pages.dev/", // replace this with your deployed domain
+  website: "https://yousef8.github.io", // replace this with your deployed domain
+  base: "/astro-paper-i18n", // only needed for deployment on github pages other than that remove it or set it to empty string ""
   author: "Sat Naing",
   profile: "https://satnaing.dev/",
   desc: "A minimal, responsive and SEO-friendly Astro blog theme.",

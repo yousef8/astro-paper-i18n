@@ -1,6 +1,7 @@
+import getRelativePath from "@utils/getRelativePath";
 import { slugifyStr } from "@utils/slugify";
-import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
+import Datetime from "./Datetime";
 
 export interface Props {
   href?: string;
@@ -19,7 +20,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
   return (
     <li className="my-6">
       <a
-        href={href}
+        href={href && getRelativePath(href)}
         className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         {secHeading ? (

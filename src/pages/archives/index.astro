@@ -1,5 +1,4 @@
 ---
-import { getCollection } from "astro:content";
 import Card from "@components/Card";
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
@@ -7,10 +6,12 @@ import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import getPostsByGroupCondition from "@utils/getPostsByGroupCondition";
+import getRelativePath from "@utils/getRelativePath";
+import { getCollection } from "astro:content";
 
 // Redirect to 404 page if `showArchives` config is false
 if (!SITE.showArchives) {
-  return Astro.redirect("/404");
+  return Astro.redirect(getRelativePath("/404"));
 }
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);

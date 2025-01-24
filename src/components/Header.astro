@@ -2,6 +2,7 @@
 import { LOGO_IMAGE, SITE } from "@config";
 import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
+import getRelativePath from "@utils/getRelativePath";
 
 export interface Props {
   activeNav?: "posts" | "archives" | "tags" | "about" | "search";
@@ -14,11 +15,13 @@ const { activeNav } = Astro.props;
   <a id="skip-to-content" href="#main-content">Skip to content</a>
   <div class="nav-container">
     <div class="top-nav-wrap">
-      <a href="/" class="logo whitespace-nowrap">
+      <a href={getRelativePath("/")} class="logo whitespace-nowrap">
         {
           LOGO_IMAGE.enable ? (
             <img
-              src={`/assets/${LOGO_IMAGE.svg ? "logo.svg" : "logo.png"}`}
+              src={getRelativePath(
+                `/assets/${LOGO_IMAGE.svg ? "logo.svg" : "logo.png"}`
+              )}
               alt={SITE.title}
               width={LOGO_IMAGE.width}
               height={LOGO_IMAGE.height}
@@ -56,17 +59,26 @@ const { activeNav } = Astro.props;
         </button>
         <ul id="menu-items" class="display-none sm:flex">
           <li>
-            <a href="/posts/" class={activeNav === "posts" ? "active" : ""}>
+            <a
+              href={getRelativePath("/posts/")}
+              class={activeNav === "posts" ? "active" : ""}
+            >
               Posts
             </a>
           </li>
           <li>
-            <a href="/tags/" class={activeNav === "tags" ? "active" : ""}>
+            <a
+              href={getRelativePath("/tags/")}
+              class={activeNav === "tags" ? "active" : ""}
+            >
               Tags
             </a>
           </li>
           <li>
-            <a href="/about/" class={activeNav === "about" ? "active" : ""}>
+            <a
+              href={getRelativePath("/about/")}
+              class={activeNav === "about" ? "active" : ""}
+            >
               About
             </a>
           </li>
@@ -74,7 +86,7 @@ const { activeNav } = Astro.props;
             SITE.showArchives && (
               <li>
                 <LinkButton
-                  href="/archives/"
+                  href={getRelativePath("/archives/")}
                   className={`focus-outline flex justify-center p-3 sm:p-1`}
                   ariaLabel="archives"
                   title="Archives"
@@ -107,7 +119,7 @@ const { activeNav } = Astro.props;
           }
           <li>
             <LinkButton
-              href="/search/"
+              href={getRelativePath("/search/")}
               className={`focus-outline p-3 sm:p-1 ${
                 activeNav === "search" ? "active" : ""
               } flex`}

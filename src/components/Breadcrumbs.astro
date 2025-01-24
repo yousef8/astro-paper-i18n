@@ -1,6 +1,10 @@
 ---
+import getRelativePath from "@utils/getRelativePath";
+
+const pathname = Astro.url.pathname.slice(import.meta.env.BASE_URL.length);
+
 // Remove current url path and remove trailing slash if exists
-const currentUrlPath = Astro.url.pathname.replace(/\/+$/, "");
+const currentUrlPath = pathname.replace(/\/+$/, "");
 
 // Get url array from path
 // eg: /tags/tailwindcss => ['tags', 'tailwindcss']
@@ -27,7 +31,7 @@ breadcrumbList[0] === "tags" &&
 <nav class="breadcrumb" aria-label="breadcrumb">
   <ul>
     <li>
-      <a href="/">Home</a>
+      <a href={getRelativePath("/")}>Home</a>
       <span aria-hidden="true">&raquo;</span>
     </li>
     {
@@ -44,7 +48,7 @@ breadcrumbList[0] === "tags" &&
           </li>
         ) : (
           <li>
-            <a href={`/${breadcrumb}/`}>{breadcrumb}</a>
+            <a href={getRelativePath(`/${breadcrumb}/`)}>{breadcrumb}</a>
             <span aria-hidden="true">&raquo;</span>
           </li>
         )

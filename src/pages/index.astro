@@ -9,6 +9,7 @@ import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SITE, SOCIALS } from "@config";
+import getRelativePath from "@utils/getRelativePath";
 
 const posts = await getCollection("blog");
 
@@ -26,7 +27,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       <h1>Mingalaba</h1>
       <a
         target="_blank"
-        href="/rss.xml"
+        href={getRelativePath("/rss.xml")}
         class="rss-link"
         aria-label="rss feed"
         title="RSS Feed"

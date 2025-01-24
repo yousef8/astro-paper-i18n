@@ -8,6 +8,7 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import ShareLinks from "@components/ShareLinks.astro";
 import { SITE } from "@config";
+import getRelativePath from "@utils/getRelativePath";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -32,7 +33,7 @@ const { Content } = await post.render();
 
 const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
 const ogUrl = new URL(
-  ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
+  ogImageUrl ?? getRelativePath(`/posts/${slugifyStr(title)}.png`),
   Astro.url.origin
 ).href;
 
@@ -67,7 +68,7 @@ const nextPost =
   <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
-      onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"
+      onclick={`(() => (history.length === 1) ? window.location = '${getRelativePath("/")}' : history.back())()`}
     >
       <svg xmlns="http://www.w3.org/2000/svg"
         ><path
@@ -121,7 +122,7 @@ const nextPost =
       {
         prevPost && (
           <a
-            href={`/posts/${prevPost.slug}`}
+            href={getRelativePath(`/posts/${prevPost.slug}`)}
             class="flex w-full gap-1 hover:opacity-75"
           >
             <svg
@@ -151,7 +152,7 @@ const nextPost =
       {
         nextPost && (
           <a
-            href={`/posts/${nextPost.slug}`}
+            href={getRelativePath(`/posts/${nextPost.slug}`)}
             class="flex w-full justify-end gap-1 text-right hover:opacity-75 sm:col-start-2"
           >
             <div>

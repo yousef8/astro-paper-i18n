@@ -1,6 +1,7 @@
 ---
 import { LOCALE, SITE } from "@config";
 import "@styles/base.css";
+import getRelativePath from "@utils/getRelativePath";
 import { ViewTransitions } from "astro:transitions";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
@@ -22,7 +23,7 @@ const {
   author = SITE.author,
   profile = SITE.profile,
   description = SITE.desc,
-  ogImage = SITE.ogImage,
+  ogImage = SITE.ogImage && getRelativePath(SITE.ogImage),
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   pubDatetime,
   modDatetime,
@@ -30,7 +31,9 @@ const {
 } = Astro.props;
 
 const socialImageURL = new URL(
-  ogImage ?? SITE.ogImage ?? "og.png",
+  ogImage ??
+    (SITE.ogImage && getRelativePath(SITE.ogImage)) ??
+    getRelativePath("og.png"),
   Astro.url.origin
 ).href;
 
@@ -59,7 +62,11 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={getRelativePath("/favicon.svg")}
+    />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
 
@@ -68,7 +75,7 @@ const structuredData = {
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href={getRelativePath("/sitemap-index.xml")} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
@@ -134,7 +141,7 @@ const structuredData = {
 
     <ViewTransitions />
 
-    <script is:inline src="/toggle-theme.js" async></script>
+    <script is:inline src={getRelativePath("/toggle-theme.js")} async></script>
   </head>
   <body>
     <slot />

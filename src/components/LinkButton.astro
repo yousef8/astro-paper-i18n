@@ -1,4 +1,6 @@
 ---
+import getRelativePath from "@utils/getRelativePath";
+
 export interface Props {
   href: string;
   className?: string;
@@ -6,6 +8,8 @@ export interface Props {
   title?: string;
   disabled?: boolean;
 }
+
+const isExternalPath = (path: string) => URL.canParse(path);
 
 const {
   href,
@@ -27,7 +31,7 @@ const {
     </span>
   ) : (
     <a
-      {href}
+      href={isExternalPath(href) ? href : getRelativePath(href)}
       class:list={["group inline-block hover:text-skin-accent", className]}
       aria-label={ariaLabel}
       title={title}
