@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "src/**"
+      - "public/**"
+      - "astro.config.ts"
+      - "tailwind.config.cjs"
+      - "tsconfig.json"
+      - "eslint.config.mjs"
+      - "remark-collapse.d.ts"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
