@@ -3,6 +3,7 @@
 🌍 [اقرأنى بالعربية](README.ar.md)
 
 ![AstroPaper I18n](/public/astro-paper-i18n.png)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/AstroPaperI18n/deploy.yml?branch=main) ![GitHub Release](https://img.shields.io/github/v/release/yousef8/AstroPaperI18n)
 
 This repository is a fork of the [AstroPaper](https://github.com/satnaing/astro-paper) theme, enhanced to support internationalization (i18n).
 
