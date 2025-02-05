@@ -23,6 +23,7 @@ This Fork does not modify the original theme’s UI; it solely adds i18n support
   - [UI Enhancements](#ui-enhancements)
   - [i18n Features](#i18n-features)
   - [🧪 Testing (📋 Planned)](#-testing--planned)
+- [Lighthouse Score](#lighthouse-score)
 - [📖 How To Use](#-how-to-use)
   - [🔧 Site Configurations](#-site-configurations)
   - [🌐 Locale Configurations](#-locale-configurations)
@@ -63,6 +64,16 @@ This project includes all the features of the original [AstroPaper](https://gith
 - [ ] Ensure locales are properly configured.
 - [ ] Verify successful rendering of all pages.
 - [ ] Validate that every locale uses a `langTag` compliant with BCP47 standards (e.g., English alphabet and hyphen).
+
+## Lighthouse Score
+
+Click to view full report
+
+<p align="center">
+  <a href="https://pagespeed.web.dev/analysis/https-yousef8-github-io-AstroPaperI18n-ar/d2cqwqovpv?form_factor=desktop">
+    <img width="710" alt="AstroPaper I18n Lighthouse Score" src="AstroPaper-lighthouse-score.svg">
+  <a>
+</p>
 
 ## 📖 How To Use
 
