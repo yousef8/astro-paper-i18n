@@ -1,6 +1,6 @@
 # أستروبيبر مع دعم الترجمة
 
-🌍 [Readme in English](README.ar.md)
+🌍 [Readme in English](README.md)
 
 ![AstroPaper I18n](/public/astro-paper-i18n.png)
 
