@@ -23,9 +23,9 @@ const { page } = Astro.props;
   <Main pageTitle={t("posts")} pageDesc={t("posts.desc")}>
     <ul>
       {
-        page.data.map(({ data, slug }) => (
+        page.data.map(({ data, id }) => (
           <Card
-            href={`/posts/${slug}/`}
+            href={`/posts/${id}/`}
             frontmatter={data}
             currentLocale={Astro.currentLocale}
           />

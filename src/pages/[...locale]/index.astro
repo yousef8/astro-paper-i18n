@@ -86,9 +86,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           <section id="featured">
             <h2>{t("featured")}</h2>
             <ul>
-              {featuredPosts.map(({ data, slug }) => (
+              {featuredPosts.map(({ data, id }) => (
                 <Card
-                  href={`/posts/${slug}/`}
+                  href={`/posts/${id}/`}
                   frontmatter={data}
                   secHeading={false}
                   currentLocale={Astro.currentLocale}
@@ -107,10 +107,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           <h2>{t("recentPosts")}</h2>
           <ul>
             {recentPosts.map(
-              ({ data, slug }, index) =>
+              ({ data, id }, index) =>
                 index < SITE.postPerIndex && (
                   <Card
-                    href={`/posts/${slug}/`}
+                    href={`/posts/${id}/`}
                     frontmatter={data}
                     secHeading={false}
                     currentLocale={Astro.currentLocale}

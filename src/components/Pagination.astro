@@ -2,8 +2,7 @@
 import type { Page } from "astro";
 import LinkButton from "./LinkButton.astro";
 import type { CollectionEntry } from "astro:content";
-import { getLocaleInfo, translateFor } from "@i18n/utils";
-import { DEFAULT_LOCALE } from "@i18n/config";
+import { getLocaleInfo, stripBaseAndLocale, translateFor } from "@i18n/utils";
 
 export interface Props {
   page: Page<CollectionEntry<"blog">>;
@@ -15,9 +14,6 @@ const LOCALE = getLocaleInfo(Astro.currentLocale);
 const { page } = Astro.props;
 
 const currentLocale = Astro.currentLocale;
-
-const localePrefix =
-  "/" + (currentLocale === DEFAULT_LOCALE ? "" : currentLocale);
 ---
 
 {
@@ -25,7 +21,7 @@ const localePrefix =
     <nav class="pagination-wrapper" aria-label={t("a11y.pagination")}>
       <LinkButton
         disabled={!page.url.prev}
-        href={page.url.prev?.slice(localePrefix.length) as string}
+        href={stripBaseAndLocale(currentLocale, page.url.prev ?? "")}
         className={`me-4 select-none ${page.url.prev ? "" : "disabled"}`}
         ariaLabel="Previous"
       >
@@ -41,7 +37,7 @@ const localePrefix =
       {page.lastPage.toLocaleString(LOCALE.langTag)}
       <LinkButton
         disabled={!page.url.next}
-        href={page.url.next?.slice(localePrefix.length) as string}
+        href={stripBaseAndLocale(currentLocale, page.url.next ?? "")}
         className={`mx-4 select-none ${page.url.next ? "" : "disabled"}`}
         ariaLabel="Next"
       >

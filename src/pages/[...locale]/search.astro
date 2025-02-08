@@ -30,11 +30,11 @@ const posts = postsByLocale[locale];
 const sortedPosts = getSortedPosts(posts);
 
 // List of items to search in
-const searchList = sortedPosts.map(({ data, slug }) => ({
+const searchList = sortedPosts.map(({ data, id }) => ({
   title: data.title,
   description: data.description,
   data,
-  slug,
+  slug: id,
 }));
 
 const t = translateFor(Astro.currentLocale);

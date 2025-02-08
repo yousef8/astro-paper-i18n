@@ -29,8 +29,8 @@ export async function GET(context: APIContext) {
     title: t("site.title"),
     description: t("site.desc"),
     site: new URL(getRelativeLocalePath(locale), SITE.website).href,
-    items: sortedPosts.map(({ data, slug }) => ({
-      link: getRelativeLocalePath(locale, `/posts/${slug}/`),
+    items: sortedPosts.map(({ data, id }) => ({
+      link: getRelativeLocalePath(locale, `/posts/${id}/`),
       title: data.title,
       description: data.description,
       pubDate: new Date(data.modDatetime ?? data.pubDatetime),

@@ -106,9 +106,9 @@ type MonthKey =
                             new Date(a.data.pubDatetime).getTime() / 1000
                           )
                       )
-                      .map(({ data, slug }) => (
+                      .map(({ data, id }) => (
                         <Card
-                          href={`/posts/${slug}`}
+                          href={`/posts/${id}`}
                           frontmatter={data}
                           currentLocale={Astro.currentLocale}
                         />

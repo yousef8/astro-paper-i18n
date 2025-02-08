@@ -21,7 +21,7 @@ export async function getStaticPaths() {
     const postResult = posts.map(post => ({
       params: {
         locale: locale === DEFAULT_LOCALE ? undefined : locale,
-        slug: post.slug,
+        slug: post.id,
       },
       props: { post },
     }));

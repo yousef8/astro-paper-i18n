@@ -2,6 +2,7 @@
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
 import AboutLayout from "@layouts/AboutLayout.astro";
 import { getAboutForLocale } from "@utils/about";
+import { render } from "astro:content";
 
 export async function getStaticPaths() {
   return SUPPORTED_LOCALES.map(locale => ({
@@ -19,7 +20,7 @@ let frontmatter: { title: string; description?: string } = {
 };
 
 if (about) {
-  const rendered = await about.render();
+  const rendered = await render(about);
   Content = rendered.Content;
 
   frontmatter = {
