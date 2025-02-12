@@ -44,12 +44,17 @@ export function isPathLocalized(path: string): boolean {
 
 export function getRelativeLocalePath(
   locale: string | undefined,
-  path?: string,
+  path: string = "/",
   options?: GetLocaleOptions
 ): string {
   const localeKey = resolveLocale(locale);
+  const isThereTrailingSlash = path.endsWith("/");
 
-  return getRelativeLocaleUrl(localeKey, path, options);
+  const localizedPath = getRelativeLocaleUrl(localeKey, path, options);
+
+  return isThereTrailingSlash
+    ? localizedPath
+    : localizedPath.replace(/\/+$/, "");
 }
 
 function resolveLocale(locale: string | undefined): SupportedLocales[number] {
