@@ -2,7 +2,12 @@
 
 🌍 [اقرأنى بالعربية](README.ar.md)
 
+<div align='center'>
+
 ![AstroPaper I18n](/public/astro-paper-i18n.png)
+
+</div>
+
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/AstroPaperI18n/deploy.yml?branch=main) ![GitHub Release](https://img.shields.io/github/v/release/yousef8/AstroPaperI18n)
 
 This repository is a fork of the [AstroPaper](https://github.com/satnaing/astro-paper) theme, enhanced to support internationalization (i18n).
@@ -52,13 +57,12 @@ This project includes all the features of the original [AstroPaper](https://gith
 - [x] Accessibility-related translations.
 - [x] Type-safe i18n integration using TypeScript.
 - [x] Sitemaps with i18n support ([`@astrojs/sitemap`](https://docs.astro.build/en/guides/integrations-guide/sitemap/)).
+- [x] OG image generation with i18n support
+  - Note: satori does not support RTL languages, causing layout issues for RTL OG images.
 - [ ] 📋 **Planned:**
   - [ ] RSS Feeds with i18n support ([`@astrojs/rss`](https://docs.astro.build/en/guides/rss/)).
     - Currently, subscribing to RSS will feed users by articles from all locales.
-  - [x] OG image generation with i18n support
-    - Note: satori does not support RTL languages, causing layout issues for RTL OG images.
   - [ ] Route translations.
-  - [ ] Make language picker persistent
 
 ### 🧪 Testing (📋 Planned)
 
@@ -82,9 +86,7 @@ The same way to [use and configure AstroTheme](https://github.com/satnaing/astro
 
 ### 🔧 Site Configurations
 
-`SITE.title` configuration has been replaced with `site.title` translation, which is now used across whole site.
-
-`SITE.desc` configuration has been replaced with `site.desc` translation, which is now used across most of site, will be removed soon.
+`SITE.title` and `SITE.desc` configuration has been replaced with `site.title` and `site.desc` translation, which is now used across whole site.
 
 ```diff
 // src/config.ts
@@ -92,7 +94,7 @@ The same way to [use and configure AstroTheme](https://github.com/satnaing/astro
 export const SITE: Site = {
   //...
 -  title: "AstroPaper I18n",
-   desc: "A fork of AstroPaper theme with support for I18n",
+-  desc: "A fork of AstroPaper theme with support for I18n",
   //...
 };
 ```
@@ -132,7 +134,7 @@ export const localeToProfile = {
     messages: ARLocale, // Locale translations
     langTag: "ar-EG", // BCP 47 Language Tag (used for dates, numbers, and sitemap)
     direction: "rtl", // UI layout direction
-    googleFontName: "Cairo", // For OG image generation, font must support 400 and 700 weights, write name as it should goes in a URL, words separated with '+' instead of spaces
+    googleFontName: "Cairo", // For OG image generation, font must support 400 and 700 weights, replace spaces with '+'
   },
   en: {
     name: "English",

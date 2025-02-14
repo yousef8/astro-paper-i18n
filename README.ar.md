@@ -2,7 +2,11 @@
 
 🌍 [Readme in English](README.md)
 
+<div align='center'>
+
 ![AstroPaper I18n](/public/astro-paper-i18n.png)
+
+</div>
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/AstroPaperI18n/deploy.yml?branch=main) ![GitHub Release](https://img.shields.io/github/v/release/yousef8/AstroPaperI18n)
 
@@ -53,14 +57,13 @@
 - [x] ترجمات متعلقة بالوصول لمن يعانون من إعاقات بصرية أو سمعية.
 - [x] دعم i18n باستخدام TypeScript.
 - [x]  [خرائط موقع](https://docs.astro.build/en/guides/integrations-guide/sitemap/) مع دعم لل i18n
+- [x] توليد صور[OG](https://www.freecodecamp.org/news/what-is-open-graph-and-how-can-i-use-it-for-my-website/) مترجمة
+  - ملحوظة : [satori](https://www.npmjs.com/package/satori) لا تدعم اللغات ذات إتجاه من يمين لليسار. لذلك ستكون الصور بها بعض المشاكل فى هذه الحالة
 - [ ] 📋 **مخطط له**
   - [ ] [تلخيص الموقع](https://docs.astro.build/en/guides/rss/) مع دعم للترجمة
     - حاليا هنا دعم لتلخيص المواقع بفضل الثيمة الأصلية
     - لكن عند الاشتراك فثه سوف يتم تغذية المشتركين بمقالات من كل اللغات دون فصل لغة عن الأخرى
-  - [x] توليد صور[OG](https://www.freecodecamp.org/news/what-is-open-graph-and-how-can-i-use-it-for-my-website/) مترجمة
-    - ملحوظة : [satori](https://www.npmjs.com/package/satori) لا تدعم اللغات ذات إتجاه من يمين لليسار. لذلك ستكون الصور بها بعض المشاكل فى هذه الحالة
   - [ ] ترجمة مسارات الموقع
-  - [ ] اختيار اللغة يكون ثابت حتى بعد إعادة تحميل الصفحة
 
 ### 🧪 الاختبارات (📋 مُخطط له)
 
@@ -86,7 +89,7 @@
 
 الإعداد `SITE.title` تم إستبداله بترجمة `site.title`, و المستخدمة حاليا فى الموقع كله
 
-الإعداد `SITE.desc` تم إستبداله بترجمة `site.desc`, و المستخدمة حاليا فى الموقع معظم الموقع. ما عدا بضع أماكن و سيتم مسحها قريبل
+الإعداد `SITE.desc` تم إستبداله بترجمة `site.desc`, و المستخدمة حاليا فى الموقع كله
 
 ```diff
 // src/config.ts
@@ -94,7 +97,7 @@
 export const SITE: Site = {
   //...
 -  title: "AstroPaper I18n",
-   desc: "A fork of AstroPaper theme with support for I18n",
+-  desc: "A fork of AstroPaper theme with support for I18n",
   //...
 };
 ```
@@ -136,8 +139,9 @@ export const localeToProfile = {
     messages: ARLocale, 
    // رمز اللغة المستجدم فى ترجمة التواريخ و الارقام و خرائط المواقع ,يجب أن يكون موافق لرموز القياسية
   // BCP47 المعروفة ب 
-    langTag: "ar-EG"
-    direction: "rtl", // UI layout direction
+    langTag: "ar-EG",
+    googleFontName: "Cairo", // لتوليد صور الشار للمنشورات, يجب أن يكون خط من جوجلداعم لوزن ال400 و 700 . استبدل المسافات ب '+'
+    direction: "rtl", // إتجاه الكتابة فى الموقع
   },
   en: {
     name: "English",
@@ -218,6 +222,8 @@ export async function GET() {
 ## 🚧 المشاكل المعروفة
 
 - تنسيق الصفحات في وضع قارئ الشاشة مكسور ويحتاج إلى إصلاح.
+  - نرحب بالمساهمات!
+- [صيور الشارة](https://www.freecodecamp.org/news/what-is-open-graph-and-how-can-i-use-it-for-my-website/) المولدة للمنشورات بلغات ذات اتجاه من يمين لليسار ستكون مكسورة بسبب فصور من مكتبة [ساتورى](https://www.npmjs.com/package/satori) المستخدمة فى توليد الصور
   - نرحب بالمساهمات!
 
 </div>
