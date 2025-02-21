@@ -1,4 +1,4 @@
-name: Code Standards & Build
+name: Code Standards & Tests & Build
 
 on:
   pull_request:
@@ -23,8 +23,12 @@ jobs:
     strategy:
       matrix:
         node-versions: [18.x]
-
     uses: ./.github/workflows/code-standards-checks.yml
     with:
       node-version: ${{ matrix.node-versions }}
       run-build: true
+
+  unit-tests:
+    uses: ./.github/workflows/tests.yml
+    with:
+      node-version: "18.x"

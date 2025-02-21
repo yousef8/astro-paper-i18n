@@ -28,8 +28,13 @@ jobs:
     with:
       node-version: "18.x"
 
+  unit-tests:
+    uses: ./.github/workflows/tests.yml
+    with:
+      node-version: "18.x"
+
   build:
-    needs: code_quality
+    needs: [code_quality, unit-tests]
     runs-on: ubuntu-latest
     steps:
       - name: 🛫 Checkout code
