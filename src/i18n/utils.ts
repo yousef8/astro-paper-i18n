@@ -8,7 +8,11 @@ import {
 } from "./config";
 import type { I18nKeys } from "./types";
 
+// TODO: Convert all to pure functions
+
 export function translateFor(locale: string | undefined) {
+  // TODO: typescript support for placeholders like for ('tag.desc', {name: ''})
+  // TODO: should throw an error in case locale key not supported
   locale = locale ?? DEFAULT_LOCALE;
   return (key: I18nKeys, substitutions?: Record<string, string | number>) => {
     let translation =
@@ -23,7 +27,9 @@ export function translateFor(locale: string | undefined) {
   };
 }
 
-function isLocaleKey(locale: string): locale is SupportedLocales[number] {
+export function isLocaleKey(
+  locale: string
+): locale is SupportedLocales[number] {
   return SUPPORTED_LOCALES.includes(locale as SupportedLocales[number]);
 }
 
@@ -32,13 +38,16 @@ export function isValidLocaleKey(locale: string): boolean {
 }
 
 export function getLocaleInfo(locale?: string): LocaleProfile {
+  // TODO: rename to getLocaleConfig
+  // TODO: throw an error instead of default locale
   return locale && isLocaleKey(locale)
     ? localeToProfile[locale]
     : localeToProfile[DEFAULT_LOCALE];
 }
 
 export function isPathLocalized(path: string): boolean {
-  const possibleLocalKeyInPath = path.split("/").splice(1)[0];
+  // TODO: refactor extractingthe locale part from path
+  const possibleLocalKeyInPath = path.replace(/^\/+/, "").split("/")[0];
   return isValidLocaleKey(possibleLocalKeyInPath);
 }
 
@@ -57,7 +66,11 @@ export function getRelativeLocalePath(
     : localizedPath.replace(/\/+$/, "");
 }
 
-function resolveLocale(locale: string | undefined): SupportedLocales[number] {
+export function resolveLocale(
+  locale: string | undefined
+): SupportedLocales[number] {
+  // TODO: get rid off that function and create only 1 custom error class,
+  // no need for 2 error class just for different locale values. - What was i thinking -
   if (!locale) {
     throw new Error("locale key is undefined");
   }
@@ -76,6 +89,8 @@ export function stripBaseAndLocale(locale: string | undefined, path: string) {
 
   const prefix = buildPrefix(localeKey);
 
+  // TODO: for default locale it shouldn't remove leading slash
+  // TODO: it should handle if path doesn't have a leading slash
   return path.slice(prefix.length);
 }
 
