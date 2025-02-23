@@ -19,7 +19,7 @@ let tags = getUniqueTags(posts);
   <Header activeNav="tags" />
   <Main pageTitle={t("tags")} pageDesc={t("tags.desc")}>
     <ul>
-      {tags.map(({ tag }) => <Tag {tag} size="lg" />)}
+      {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} size="lg" />)}
     </ul>
   </Main>
   <Footer />
