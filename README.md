@@ -62,11 +62,12 @@ This project includes all the features of the original [AstroPaper](https://gith
 - [ ] 📋 **Planned:**
   - [ ] Route translations.
 
-### 🧪 Testing (📋 Planned)
+### 🧪 Testing
 
-- [ ] Ensure locales are properly configured.
-- [ ] Verify successful rendering of all pages.
-- [ ] Validate that every locale uses a `langTag` compliant with BCP47 standards (e.g., English alphabet and hyphen).
+- [x] Unit testing with [Vitest](https://vitest.dev/)
+- [x] Unit testing for i18n configurations and utilities
+- [ ] Unit testing for [src/utils](/src/utils)
+- [ ] Unit testing for [src/config.ts](/src/config.ts)
 
 ## Lighthouse Score
 
