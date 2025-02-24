@@ -37,6 +37,7 @@ This Fork does not modify the original theme’s UI; it solely adds i18n support
     - [Create Translations](#create-translations)
   - [📂 Pages folder structure](#-pages-folder-structure)
     - [📄 Shared Files](#-shared-files)
+  - [🧞 Commands](#-commands)
 - [🚧 Known Issues](#-known-issues)
 
 ## 🔥 Features
@@ -195,6 +196,16 @@ But you can just check how it's structured now and mimic it - if you are that la
 Only one `404.astro` and `robots.txt.ts` is needed for the entire site. Place them in the root [src/pages](/src/pages) directory.
 
 Other than that all files should exist in each local folder
+
+## 🧞 Commands
+
+Same [commands as in original theme](https://github.com/satnaing/astro-paper/tree/main?tab=readme-ov-file#-commands) with addition to
+
+| Command              | Action                                                                                      |
+| :------------------- | :------------------------------------------------------------------------------------------ |
+| `npm test`           | Run all unit tests once and exit [learn more](https://vitest.dev/guide/cli.html#vitest-run) |
+| `npm run test:watch` | Run unit tests in watch mode [learn more](https://vitest.dev/guide/cli.html#vitest-watch)   |
+| `npm run coverage`   | Generate unit testing coverage report [learn more](https://vitest.dev/guide/coverage.html)  |
 
 ## 🚧 Known Issues
 
