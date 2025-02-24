@@ -14,7 +14,7 @@ import {
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  ...(SITE.base && import.meta.env.PROD && { base: SITE.base }),
+  base: SITE.base,
   i18n: {
     locales: SUPPORTED_LOCALES,
     defaultLocale: DEFAULT_LOCALE,
