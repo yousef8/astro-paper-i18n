@@ -22,6 +22,12 @@ describe("SUPPORTED_LOCALES", () => {
       expect(profile).toBeDefined();
     });
   });
+
+  it("should contain all locale keys as lowercase", () => {
+    SUPPORTED_LOCALES.forEach(localeKey =>
+      expect(localeKey).toBe(localeKey.toLowerCase())
+    );
+  });
 });
 
 describe("DEFAULT_LOCALE", () => {
