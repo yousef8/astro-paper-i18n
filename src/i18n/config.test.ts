@@ -65,4 +65,11 @@ describe("LOCALES_TO_LANG", () => {
       expect(LOCALES_TO_LANG[locale]).toBe(localeToProfile[locale].langTag);
     });
   });
+
+  it("should have all langTags complaint with BCP-47", () => {
+    const langTags = Object.values(LOCALES_TO_LANG);
+    langTags.forEach(langTag => {
+      expect(() => new Intl.Locale(langTag)).not.toThrow();
+    });
+  });
 });
