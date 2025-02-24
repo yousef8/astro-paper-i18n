@@ -28,6 +28,12 @@ describe("SUPPORTED_LOCALES", () => {
       expect(localeKey).toBe(localeKey.toLowerCase())
     );
   });
+
+  it("should have all locale keys complaint with BCP-47", () => {
+    SUPPORTED_LOCALES.forEach(localKey => {
+      expect(() => new Intl.Locale(localKey)).not.toThrow();
+    });
+  });
 });
 
 describe("DEFAULT_LOCALE", () => {
