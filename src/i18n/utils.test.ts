@@ -117,6 +117,18 @@ describe("getRelativeLocalePath", () => {
   it("should throw an error for an unsupported locale", () => {
     expect(() => getRelativeLocalePath("unsupported", "/posts/1")).toThrow();
   });
+
+  it("should not remove trailing slash for root path `/`", () => {
+    expect(getRelativeLocalePath(DEFAULT_LOCALE, "/")).toBe("/");
+  });
+
+  it("should return `/` if no path supplied for default locale", () => {
+    expect(getRelativeLocalePath(DEFAULT_LOCALE)).toBe("/");
+  });
+
+  it("should return `/` if empty path `` supplied for default locale", () => {
+    expect(getRelativeLocalePath(DEFAULT_LOCALE, "")).toBe("/");
+  });
 });
 
 describe("resolveLocale", () => {

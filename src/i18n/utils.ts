@@ -57,13 +57,14 @@ export function getRelativeLocalePath(
   options?: GetLocaleOptions
 ): string {
   const localeKey = resolveLocale(locale);
-  const isThereTrailingSlash = path.endsWith("/");
 
   const localizedPath = getRelativeLocaleUrl(localeKey, path, options);
 
-  return isThereTrailingSlash
-    ? localizedPath
-    : localizedPath.replace(/\/+$/, "");
+  const hasTrailingSlash = path.endsWith("/") || localizedPath === "/";
+
+  if (hasTrailingSlash) return localizedPath;
+
+  return localizedPath.replace(/\/+$/, "");
 }
 
 export function resolveLocale(
