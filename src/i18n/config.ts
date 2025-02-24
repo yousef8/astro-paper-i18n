@@ -14,6 +14,7 @@ export type LocaleProfile = {
 export type SupportedLocales = Array<keyof typeof localeToProfile>;
 
 export const localeToProfile = {
+  // locale key must be in lowercase
   ar: {
     name: "العربية", // Name presented in language picker
     messages: ARLocale, // Locale translations

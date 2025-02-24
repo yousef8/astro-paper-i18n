@@ -126,8 +126,8 @@ Instead Locale configuration is now handled in `src/i18n/config.ts`:
 ```ts
 // src/i18n/config.ts
 export const localeToProfile = {
+  // local key must be all lowercase and complaint with BCP-47
   ar: {
-    // local key
     name: "العربية", // Name presented in language picker
     messages: ARLocale, // Locale translations
     langTag: "ar-EG", // BCP 47 Language Tag (used for dates, numbers, and sitemap)
@@ -149,7 +149,8 @@ Key Points About Locale Configuration
 
 #### Locale key (e.g. `ar`, `en`)
 
-- For convention it should be compliant with BCP47 names
+- **Must be compliant with BCP-47 names**
+- **Must be all lowercase**
 - An array of the local keys is generated and passed to Astrojs i18n configurations to set available locales
 - Each locale key is going to be in the begin of all pages URLs in the scope of the locale.
   for example all localized pages in Arabic will be available in URLs beginning with `/ar`
