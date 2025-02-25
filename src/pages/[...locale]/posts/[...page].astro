@@ -1,10 +1,10 @@
 ---
-import { SITE } from "@config";
-import Posts from "@layouts/Posts.astro";
+import { SITE } from "@/config";
+import Posts from "@/layouts/Posts.astro";
 import type { GetStaticPaths } from "astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import { getPostsGroupedByLocale } from "@utils/posts";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { getPostsGroupedByLocale } from "@/utils/posts";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const postsByLocale = await getPostsGroupedByLocale({

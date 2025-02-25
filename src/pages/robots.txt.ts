@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { SITE } from "@config";
-import getRelativePath from "@utils/getRelativePath";
+import { SITE } from "@/config";
+import getRelativePath from "@/utils/getRelativePath";
 
 const robots = `
 User-agent: Googlebot

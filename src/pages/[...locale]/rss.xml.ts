@@ -1,10 +1,10 @@
 import rss from "@astrojs/rss";
-import getSortedPosts from "@utils/getSortedPosts";
-import { SITE } from "@config";
-import { getRelativeLocalePath, translateFor } from "@i18n/utils";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { SITE } from "@/config";
+import { getRelativeLocalePath, translateFor } from "@/i18n/utils";
 import type { APIContext, InferGetStaticParamsType } from "astro";
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@i18n/config";
-import { getPostsGroupedByLocale } from "@utils/posts";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@/i18n/config";
+import { getPostsGroupedByLocale } from "@/utils/posts";
 
 export async function getStaticPaths() {
   return SUPPORTED_LOCALES.map(locale => ({

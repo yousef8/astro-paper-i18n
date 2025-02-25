@@ -1,8 +1,8 @@
 import satori from "satori";
 import type { CollectionEntry } from "astro:content";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
-import type { LocaleProfile, LocaleKey } from "@i18n/config";
-import { translateFor } from "@i18n/utils";
+import type { LocaleProfile, LocaleKey } from "@/i18n/config";
+import { translateFor } from "@/i18n/utils";
 
 export default async (
   post: CollectionEntry<"blog">,

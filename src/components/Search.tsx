@@ -1,8 +1,8 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo, type FormEvent } from "react";
-import Card from "@components/Card";
+import Card from "@/components/Card";
 import type { CollectionEntry } from "astro:content";
-import { translateFor } from "@i18n/utils";
+import { translateFor } from "@/i18n/utils";
 
 export type SearchItem = {
   title: string;

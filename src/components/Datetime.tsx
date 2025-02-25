@@ -1,5 +1,5 @@
-import { SITE } from "@config";
-import { getLocaleInfo, translateFor } from "@i18n/utils";
+import { SITE } from "@/config";
+import { getLocaleInfo, translateFor } from "@/i18n/utils";
 import type { CollectionEntry } from "astro:content";
 
 interface DatetimesProps {

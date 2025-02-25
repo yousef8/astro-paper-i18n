@@ -1,11 +1,11 @@
 ---
-import TagPosts from "@layouts/TagPosts.astro";
-import getUniqueTags from "@utils/getUniqueTags";
-import getPostsByTag from "@utils/getPostsByTag";
+import TagPosts from "@/layouts/TagPosts.astro";
+import getUniqueTags from "@/utils/getUniqueTags";
+import getPostsByTag from "@/utils/getPostsByTag";
 import type { GetStaticPathsOptions } from "astro";
-import { SITE } from "@config";
-import { getPostsGroupedByLocale } from "@utils/posts";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
+import { SITE } from "@/config";
+import { getPostsGroupedByLocale } from "@/utils/posts";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const postsByLocale = await getPostsGroupedByLocale({

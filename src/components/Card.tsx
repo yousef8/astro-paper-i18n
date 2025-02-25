@@ -1,5 +1,5 @@
-import { getRelativeLocalePath } from "@i18n/utils";
-import { slugifyStr } from "@utils/slugify";
+import { getRelativeLocalePath } from "@/i18n/utils";
+import { slugifyStr } from "@/utils/slugify";
 import type { CollectionEntry } from "astro:content";
 import Datetime from "./Datetime";
 

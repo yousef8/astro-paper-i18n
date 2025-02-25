@@ -1,14 +1,14 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import SearchBar from "@components/Search";
-import getSortedPosts from "@utils/getSortedPosts";
-import { translateFor } from "@i18n/utils";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import SearchBar from "@/components/Search";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { translateFor } from "@/i18n/utils";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
 import type { InferGetStaticParamsType } from "astro";
-import { getPostsGroupedByLocale } from "@utils/posts";
+import { getPostsGroupedByLocale } from "@/utils/posts";
 
 export async function getStaticPaths() {
   return SUPPORTED_LOCALES.map(locale => ({

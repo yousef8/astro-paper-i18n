@@ -1,9 +1,9 @@
 ---
-import { SITE } from "@config";
-import { DEFAULT_LOCALE } from "@i18n/config";
-import { translateFor, getLocaleInfo } from "@i18n/utils";
-import "@styles/base.css";
-import getRelativePath from "@utils/getRelativePath";
+import { SITE } from "@/config";
+import { DEFAULT_LOCALE } from "@/i18n/config";
+import { translateFor, getLocaleInfo } from "@/i18n/utils";
+import "@/styles/base.css";
+import getRelativePath from "@/utils/getRelativePath";
 import { ViewTransitions } from "astro:transitions";
 
 const t = translateFor(Astro.currentLocale);

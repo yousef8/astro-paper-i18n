@@ -1,7 +1,7 @@
 ---
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
-import AboutLayout from "@layouts/AboutLayout.astro";
-import { getAboutForLocale } from "@utils/about";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import AboutLayout from "@/layouts/AboutLayout.astro";
+import { getAboutForLocale } from "@/utils/about";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {

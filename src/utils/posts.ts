@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, type LocaleKey } from "@i18n/config";
+import { DEFAULT_LOCALE, type LocaleKey } from "@/i18n/config";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 type GetPostsOptions = {

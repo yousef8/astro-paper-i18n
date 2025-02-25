@@ -2,7 +2,7 @@
 import type { Page } from "astro";
 import LinkButton from "./LinkButton.astro";
 import type { CollectionEntry } from "astro:content";
-import { getLocaleInfo, stripBaseAndLocale, translateFor } from "@i18n/utils";
+import { getLocaleInfo, stripBaseAndLocale, translateFor } from "@/i18n/utils";
 
 export interface Props {
   page: Page<CollectionEntry<"blog">>;
