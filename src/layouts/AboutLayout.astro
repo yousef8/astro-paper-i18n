@@ -1,9 +1,9 @@
 ---
-import Breadcrumbs from "@/components/Breadcrumbs.astro";
-import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { translateFor } from "@/i18n/utils";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
 import Layout from "./Layout.astro";
+import { translateFor } from "@/i18n/utils";
 
 export interface Props {
   frontmatter: {
@@ -22,8 +22,8 @@ const title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${sit
 ---
 
 <Layout title={title}>
-  <Header activeNav="about" />
-  <Breadcrumbs />
+  <Header />
+  <Breadcrumb />
   <main id="main-content">
     <section id="about" class="prose mb-28 max-w-3xl prose-img:border-0">
       <h1 class="text-2xl tracking-wider sm:text-3xl">{frontmatter.title}</h1>

@@ -3,13 +3,13 @@ import Card from "@/components/Card";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import { SITE } from "@/config";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { getLocaleInfo, translateFor } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
 import Main from "@/layouts/Main.astro";
 import getPostsByGroupCondition from "@/utils/getPostsByGroupCondition";
-import { getLocaleInfo, translateFor } from "@/i18n/utils";
 import getRelativePath from "@/utils/getRelativePath";
 import { getPostsGroupedByLocale } from "@/utils/posts";
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@/i18n/config";
 
 const redirectTo404 = () => {
   return Astro.redirect(getRelativePath("/404"));
@@ -56,10 +56,12 @@ type MonthKey =
   | "10"
   | "11"
   | "12";
+
+const backUrl = SITE.showBackButton ? `?from=${Astro.url.pathname}` : "/";
 ---
 
 <Layout title={`${t("archives")} | ${t("site.title")}`}>
-  <Header activeNav="archives" />
+  <Header />
   <Main pageTitle={t("archives")} pageDesc={t("archives.desc")}>
     {
       Object.entries(
@@ -108,7 +110,7 @@ type MonthKey =
                       )
                       .map(({ data, id }) => (
                         <Card
-                          href={`/posts/${id}`}
+                          href={`/posts/${id}${backUrl}`}
                           frontmatter={data}
                           currentLocale={Astro.currentLocale}
                         />

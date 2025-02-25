@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import { SITE } from "./src/config";
@@ -20,9 +20,6 @@ export default defineConfig({
     defaultLocale: DEFAULT_LOCALE,
   },
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     react(),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
@@ -49,9 +46,12 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [tailwindcss()],
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
   },
-  scopedStyleStrategy: "where",
+  experimental: {
+    svg: true,
+  },
 });

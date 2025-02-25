@@ -1,10 +1,14 @@
 ---
-import { SITE } from "@/config";
 import { DEFAULT_LOCALE } from "@/i18n/config";
-import { translateFor, getLocaleInfo } from "@/i18n/utils";
-import "@/styles/base.css";
+import {
+  translateFor,
+  getLocaleInfo,
+  getRelativeLocalePath,
+} from "@/i18n/utils";
 import getRelativePath from "@/utils/getRelativePath";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
+import { SITE } from "@/config";
+import "@/styles/global.css";
 
 const t = translateFor(Astro.currentLocale);
 
@@ -30,18 +34,16 @@ const {
   profile = SITE.profile,
   description = t("site.desc"),
   ogImage = SITE.ogImage && getRelativePath(SITE.ogImage),
-  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  canonicalURL = new URL(Astro.url.pathname, Astro.url),
   pubDatetime,
   modDatetime,
   scrollSmooth = false,
 } = Astro.props;
 
 const socialImageURL = new URL(
-  ogImage ??
-    (SITE.ogImage && getRelativePath(SITE.ogImage)) ??
-    getRelativePath("og.png"),
-  Astro.url.origin
-).href;
+  ogImage ?? getRelativePath(SITE.ogImage) ?? getRelativePath("og.png"),
+  Astro.url
+);
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -118,29 +120,36 @@ const structuredData = {
     <!-- Google JSON-LD Structured data -->
     <script
       type="application/ld+json"
+      is:inline
       set:html={JSON.stringify(structuredData)}
     />
 
+    <!-- Enable RSS feed auto-discovery  -->
+    <!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={t("site.title")}
+      href={new URL(
+        getRelativeLocalePath(Astro.currentLocale, "rss.xml"),
+        Astro.site
+      )}
+    />
+
     <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     {
-      Astro.currentLocale === "ar" ? (
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
-          rel="preload"
-          as="style"
-          onload="this.onload=null; this.rel='stylesheet';"
-          crossorigin
-        />
-      ) : (
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-          rel="preload"
-          as="style"
-          onload="this.onload=null; this.rel='stylesheet';"
-          crossorigin
-        />
+      Astro.currentLocale === "ar" && (
+        <>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
+            rel="preload"
+            as="style"
+            onload="this.onload=null; this.rel='stylesheet';"
+            crossorigin
+          />
+        </>
       )
     }
 
@@ -158,7 +167,7 @@ const structuredData = {
       )
     }
 
-    <ViewTransitions />
+    <ClientRouter />
 
     <script is:inline src={getRelativePath("/toggle-theme.js")} async></script>
   </head>
@@ -166,3 +175,12 @@ const structuredData = {
     <slot />
   </body>
 </html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
