@@ -1,7 +1,7 @@
 ---
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import Card from "@/components/Card";
+import Card from "@/components/Card.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import Hr from "@/components/Hr.astro";
@@ -96,7 +96,6 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
                   href={`/posts/${id}/`}
                   frontmatter={data}
                   secHeading={false}
-                  currentLocale={Astro.currentLocale}
                 />
               ))}
             </ul>
@@ -120,7 +119,6 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
                     href={`/posts/${id}/`}
                     frontmatter={data}
                     secHeading={false}
-                    currentLocale={Astro.currentLocale}
                   />
                 )
             )}

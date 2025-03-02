@@ -1,5 +1,5 @@
 ---
-import Card from "@/components/Card";
+import Card from "@/components/Card.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import Pagination from "@/components/Pagination.astro";
@@ -58,11 +58,7 @@ const backUrl = SITE.showBackButton ? `?from=${Astro.url.pathname}` : "/";
     <ul>
       {
         page.data.map(({ data, id }) => (
-          <Card
-            href={`/posts/${id}${backUrl}`}
-            frontmatter={data}
-            currentLocale={Astro.currentLocale}
-          />
+          <Card href={`/posts/${id}${backUrl}`} frontmatter={data} />
         ))
       }
     </ul>

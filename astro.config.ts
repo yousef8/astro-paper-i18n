@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
@@ -20,7 +19,6 @@ export default defineConfig({
     defaultLocale: DEFAULT_LOCALE,
   },
   integrations: [
-    react(),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
       i18n: {
