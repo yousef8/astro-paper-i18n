@@ -1,0 +1,40 @@
+---
+import TagPosts from "@layouts/TagPosts.astro";
+import getUniqueTags from "@utils/getUniqueTags";
+import getPostsByTag from "@utils/getPostsByTag";
+import type { GetStaticPathsOptions } from "astro";
+import { SITE } from "@config";
+import { getPostsGroupedByLocale } from "@utils/posts";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const postsByLocale = await getPostsGroupedByLocale({
+    allowedLocales: SUPPORTED_LOCALES,
+  });
+
+  return SUPPORTED_LOCALES.flatMap(localeKey => {
+    const posts = postsByLocale[localeKey] || [];
+
+    const tags = getUniqueTags(posts);
+
+    return tags.flatMap(({ tag, tagName }) => {
+      const tagPosts = getPostsByTag(posts, tag);
+
+      return paginate(tagPosts, {
+        params: {
+          tag,
+          locale: localeKey === DEFAULT_LOCALE ? undefined : localeKey,
+        },
+        props: { tagName },
+        pageSize: SITE.postPerPage,
+      });
+    });
+  });
+}
+
+const params = Astro.params;
+const { tag } = params;
+const { page, tagName } = Astro.props;
+---
+
+<TagPosts {page} {tag} {tagName} />

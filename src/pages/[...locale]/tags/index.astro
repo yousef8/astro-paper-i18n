@@ -1,5 +1,4 @@
 ---
-import { getCollection } from "astro:content";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Layout from "@layouts/Layout.astro";
@@ -7,8 +6,18 @@ import Main from "@layouts/Main.astro";
 import Tag from "@components/Tag.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import { translateFor } from "@i18n/utils";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
+import { getPostsByLocale } from "@utils/posts";
 
-const posts = await getCollection("blog");
+export const getStaticPaths = async () => {
+  return SUPPORTED_LOCALES.map(locale => ({
+    params: { locale: locale === DEFAULT_LOCALE ? undefined : locale },
+  }));
+};
+
+const { locale = DEFAULT_LOCALE } = Astro.params;
+
+const posts = await getPostsByLocale(locale);
 
 const t = translateFor(Astro.currentLocale);
 

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
 import { SITE, SOCIALS } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
@@ -10,8 +10,17 @@ import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { translateFor, getRelativeLocalePath } from "@i18n/utils";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
+import { getPostsByLocale } from "@utils/posts";
 
-const posts = await getCollection("blog");
+export const getStaticPaths = (async () =>
+  SUPPORTED_LOCALES.map(locale => ({
+    params: { locale: locale === DEFAULT_LOCALE ? undefined : locale },
+  }))) satisfies GetStaticPaths;
+
+const { locale = DEFAULT_LOCALE } = Astro.params;
+
+const posts = await getPostsByLocale(locale);
 const t = translateFor(Astro.currentLocale);
 
 const sortedPosts = getSortedPosts(posts);

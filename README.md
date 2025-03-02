@@ -27,17 +27,13 @@ This Fork does not modify the original theme’s UI; it solely adds i18n support
 - [🔥 Features](#-features)
   - [UI Enhancements](#ui-enhancements)
   - [i18n Features](#i18n-features)
-  - [🧪 Testing (📋 Planned)](#-testing--planned)
+  - [🧪 Testing](#-testing)
 - [Lighthouse Score](#lighthouse-score)
 - [📖 How To Use](#-how-to-use)
+- [🛠️ Configuration](#%EF%B8%8F-configuration)
   - [🔧 Site Configurations](#-site-configurations)
   - [🌐 Locale Configurations](#-locale-configurations)
-    - [Locale key (e.g. `ar`, `en`)](#locale-key-eg-ar-en)
-    - [Locale Profile (locale key value)](#locale-profile-locale-key-value)
-    - [Create Translations](#create-translations)
-  - [📂 Pages folder structure](#-pages-folder-structure)
-    - [📄 Shared Files](#-shared-files)
-  - [🧞 Commands](#-commands)
+- [🧞 Commands](#-commands)
 - [🚧 Known Issues](#-known-issues)
 
 ## 🔥 Features
@@ -82,7 +78,59 @@ Click to view full report
 
 ## 📖 How To Use
 
-The same way to [use and configure AstroTheme](https://github.com/satnaing/astro-paper?tab=readme-ov-file#-project-structure), but with some _major_ configuration changes.
+### 1- Create translations file
+
+Go to [src/i18n/locales](/src/i18n/locales) and create a file for your locale (e.g. es, ja, etc..), it should be named as `<locale_key>.ts` (e.g. es.ts, ja.ts, etc..).
+
+Export a variable of `I18nStrings` type from `@i18n/types` with all the translations as key value pairs.
+
+Take a look at the type at [/src/i18n/types.ts](/src/i18n/types.ts) and example file [/src/i18n/locales/ar.ts](/src/i18n/locales/ar.ts)
+
+### 2- Define locale configuration
+
+Go to [src/i18n/config.ts](/src/i18n/config.ts) and define a locale profile for your locale inside the configuration object `localeToProfile`.
+
+Locale configuration is used to define the name of the locale, the translations, the language tag, the UI layout direction, and the Google font name.
+
+Create a locale key which must be in all lowercase and complient with BCP-47 names. (eg. ar, en, es, ja, etc..), it's value is an object with the following keys:
+
+- Assign a name to the `name` key in your locale profile, it will be used in the language picker.
+
+- Assign translations file you created in step 1 to the `messages` key in your locale profile.
+
+- Language tag must be in BCP47 name compliant, it's used to localize date and time in original AstroPaper theme, but it's **scope was expanded to localize all the numbers too**. (eg. en-US, ar-EG, es-ES, ja-JP, etc..)
+
+- Google font name is used only in [OG images](https://magefan.com/blog/open-graph-meta-tags).
+
+- set the `default` key to `true` if you want to set it, if no locale is set as default, the first locale in the object is used as the default.
+
+- set the `direction` key to one of supported values `rtl | ltr | auto` corresponds to html `dir` tag directives values
+
+**Note:** you may need to restart the dev server to see the changes.
+
+**Note:** [satori](https://github.com/vercel/satori) does not support RTL languages, causing layout issues for RTL [OG images](https://magefan.com/blog/open-graph-meta-tags).
+
+### 3- Add about page
+
+The about page now has it's own [content collection](https://docs.astro.build/en/guides/content-collections/) because this theme supports i18n and you will likely need about page content in multiple locales.
+
+Go to [src/content/about](/src/content/about) and create a file for your locale, it should be named as `about.<locale_key>.md` (e.g. about.en.md, about.es.md, etc..).
+
+Same frontmatter keys as in original AstroPaper theme are supported `title` and `description` for the page title and description.
+
+### 4- Add your content
+
+Under [src/conent/blog](/src/content/blog) create a folder with your locale key (e.g. es, ja, etc..) as it's name and add your content in markdown format.
+
+Any blog outside locale folder will not be considered by the site.
+
+That's it, you're done 🎈🎉 🥳!
+
+See [AstroPaper Docs](https://github.com/satnaing/astro-paper?tab=readme-ov-file#-documentation) for more info as this project builds upon it while to only support i18n, but everything else should be the same.
+
+## 🛠️ Configuration
+
+The same way to [use and configure AstroTheme](https://github.com/satnaing/astro-paper?tab=readme-ov-file#-project-structure), but with some changes.
 
 ### 🔧 Site Configurations
 
@@ -146,56 +194,6 @@ export const localeToProfile = {
   },
 } satisfies Record<string, LocaleProfile>;
 ```
-
-Key Points About Locale Configuration
-
-#### Locale key (e.g. `ar`, `en`)
-
-- **Must be compliant with BCP-47 names**
-- **Must be all lowercase**
-- An array of the local keys is generated and passed to Astrojs i18n configurations to set available locales
-- Each locale key is going to be in the begin of all pages URLs in the scope of the locale.
-  for example all localized pages in Arabic will be available in URLs beginning with `/ar`
-- Default locale key will be available at the root of the website `/` and it's locale key won't get appended at the begin of URLs
-- Example:
-  - Arabic locale URLs will always begin with `/ar`,if **locale key** was `ar`
-  - English locale URLs will begin with `/en` if locale key was `en`
-  - Except for the default locale - which is English in our case - `/en` won't get appended to the URLs instead
-    the root URL `/` will redirect to default locale
-
-#### Locale Profile (locale key value)
-
-- `name` Display name for the language picker
-- `messages` Translations for system strings (see below for how to create translations).
-- `langTag` must be BCP47 name compliant
-  - this was used to just localize date and time in original AstroPaper theme,
-    but it's **scope was expanded to localize all the numbers too**
-- `direction` UI layout direction, can be one of 3 values `rtl | ltr | auto` corresponds to html `dir` tag directives values
-- `googleFontName` click _get embed code_ for a font you like on google fonts and get the name as it's from href attribute for link tag.
-  this is used only in OG images
-- `default` Marks the default locale. If not set, the first locale in the object is used as the default.
-
-#### Create Translations
-
-1. Create a file in `src/i18n/locales` named `<locale_key>.ts` (e.g. `ar.ts`, `en.ts`) - it could be named anything but I think this is more convenient :smile: -
-2. Define an object of type `I18nStrings` (imported from `@i18n/types`).
-
-   - this type will enforce all the necessary translations that should be populated by any translation
-   - take a look at the type at [/src/i18n/types.ts](/src/i18n/types.ts)
-   - **OR** just copy the contents one of already existing translation files [src/i18n/locales/ar.ts](/src/i18n/locales/ar.ts) or [src/i18n/locales/en.ts](/src/i18n/locales/en.ts) and change the translations with yours
-
-3. Import that translation in `src/i18n/config` and assign it as a value to `messages` key in your locale profile
-
-### 📂 Pages folder structure
-
-The folder structure follows [Astro's i18n documentation](https://docs.astro.build/en/guides/internationalization/#create-localized-folders) to understand how pages folder should be structured for localized content.
-But you can just check how it's structured now and mimic it - if you are that lazy :smile: -
-
-#### 📄 Shared Files
-
-Only one `404.astro` and `robots.txt.ts` is needed for the entire site. Place them in the root [src/pages](/src/pages) directory.
-
-Other than that all files should exist in each local folder
 
 ## 🧞 Commands
 
