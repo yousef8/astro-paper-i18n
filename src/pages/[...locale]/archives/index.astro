@@ -56,8 +56,6 @@ type MonthKey =
   | "10"
   | "11"
   | "12";
-
-const backUrl = SITE.showBackButton ? `?from=${Astro.url.pathname}` : "/";
 ---
 
 <Layout title={`${t("archives")} | ${t("site.title")}`}>
@@ -109,10 +107,7 @@ const backUrl = SITE.showBackButton ? `?from=${Astro.url.pathname}` : "/";
                           )
                       )
                       .map(({ data, id }) => (
-                        <Card
-                          href={`/posts/${id}${backUrl}`}
-                          frontmatter={data}
-                        />
+                        <Card href={`/posts/${id}`} frontmatter={data} />
                       ))}
                   </ul>
                 </div>
@@ -121,6 +116,5 @@ const backUrl = SITE.showBackButton ? `?from=${Astro.url.pathname}` : "/";
         ))
     }
   </Main>
-
   <Footer />
 </Layout>
