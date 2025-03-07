@@ -7,6 +7,7 @@ const baseStrings = {
 
 const ENLocale: I18nStrings = {
   ...baseStrings,
+  by: "by",
   about: "About",
   socialLinks: "Social Links",
   home: "Home",

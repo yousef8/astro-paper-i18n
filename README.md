@@ -55,7 +55,8 @@ This project includes all the features of the original [AstroPaper](https://gith
 - [ ] 📋 **Planned:**
   - [ ] RSS Feeds with i18n support ([`@astrojs/rss`](https://docs.astro.build/en/guides/rss/)).
     - Currently, subscribing to RSS will feed users by articles from all locales.
-  - [ ] OG image generation with i18n support
+  - [x] OG image generation with i18n support
+    - Note: satori does not support RTL languages, causing layout issues for RTL OG images.
   - [ ] Route translations.
   - [ ] Make language picker persistent
 
@@ -81,16 +82,28 @@ The same way to [use and configure AstroTheme](https://github.com/satnaing/astro
 
 ### 🔧 Site Configurations
 
-`SITE.title` configuration has been replaced with `site.title` translation, which is now used across most of the site.
+`SITE.title` configuration has been replaced with `site.title` translation, which is now used across whole site.
 
-Only exception is OG image generation, which still uses `SITE.title`. This will soon be updated to use the `site.title` translation (work in progress).
+`SITE.desc` configuration has been replaced with `site.desc` translation, which is now used across most of site, will be removed soon.
 
-```ts
+```diff
+// src/config.ts
+
 export const SITE: Site = {
   //...
-  title: "AstroPaper I18n",
+-  title: "AstroPaper I18n",
+   desc: "A fork of AstroPaper theme with support for I18n",
   //...
 };
+```
+
+```diff
+// src/i18n/types.ts
+
+export interface I18nStrings {
++  "site.title": string;
++  "site.desc": string;
+   // ... other translations
 ```
 
 ### 🌐 Locale Configurations
@@ -119,12 +132,14 @@ export const localeToProfile = {
     messages: ARLocale, // Locale translations
     langTag: "ar-EG", // BCP 47 Language Tag (used for dates, numbers, and sitemap)
     direction: "rtl", // UI layout direction
+    googleFontName: "Cairo", // For OG image generation, font must support 400 and 700 weights, write name as it should goes in a URL, words separated with '+' instead of spaces
   },
   en: {
     name: "English",
     messages: ENLocale,
     langTag: "en-US",
     direction: "ltr",
+    googleFontName: "IBM+Plex+Mono",
     default: true,
   },
 } satisfies Record<string, LocaleProfile>;
@@ -153,6 +168,8 @@ Key Points About Locale Configuration
   - this was used to just localize date and time in original AstroPaper theme,
     but it's **scope was expanded to localize all the numbers too**
 - `direction` UI layout direction, can be one of 3 values `rtl | ltr | auto` corresponds to html `dir` tag directives values
+- `googleFontName` click _get embed code_ for a font you like on google fonts and get the name as it's from href attribute for link tag.
+  this is used only in OG images
 - `default` Marks the default locale. If not set, the first locale in the object is used as the default.
 
 #### Create Translations

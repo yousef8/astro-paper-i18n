@@ -7,6 +7,7 @@ const baseStrings = {
 
 const ARLocale: I18nStrings = {
   ...baseStrings,
+  by: "بواسطة",
   about: "عنى",
   socialLinks: "تابعنى على",
   home: "الصفحة الرئيسية",

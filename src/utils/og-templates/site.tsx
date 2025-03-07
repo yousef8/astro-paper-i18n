@@ -1,8 +1,25 @@
 import satori from "satori";
 import { SITE } from "@config";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
+import { translateFor } from "@i18n/utils";
+import type { LocaleProfile, SupportedLocales } from "@i18n/config";
 
-export default async () => {
+export default async (
+  localKey: SupportedLocales[number],
+  localeConfig: LocaleProfile
+) => {
+  const t = translateFor(localKey);
+
+  const siteTitle =
+    localeConfig.direction === "rtl"
+      ? t("site.title").split(" ").reverse().join(" ")
+      : t("site.title");
+
+  const siteDesc =
+    localeConfig.direction === "rtl"
+      ? t("site.desc").split(" ").reverse().join(" ")
+      : t("site.desc");
+
   return satori(
     <div
       style={{
@@ -65,8 +82,8 @@ export default async () => {
               textAlign: "center",
             }}
           >
-            <p style={{ fontSize: 72, fontWeight: "bold" }}>{SITE.title}</p>
-            <p style={{ fontSize: 28 }}>{SITE.desc}</p>
+            <p style={{ fontSize: 72, fontWeight: "bold" }}>{siteTitle}</p>
+            <p style={{ fontSize: 28 }}>{siteDesc}</p>
           </div>
 
           <div
@@ -90,7 +107,8 @@ export default async () => {
       height: 630,
       embedFont: true,
       fonts: (await loadGoogleFonts(
-        SITE.title + SITE.desc + SITE.website
+        siteTitle + siteDesc + SITE.website,
+        localeConfig.googleFontName
       )) as FontOptions[],
     }
   );

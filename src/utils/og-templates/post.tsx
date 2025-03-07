@@ -1,9 +1,30 @@
 import satori from "satori";
 import type { CollectionEntry } from "astro:content";
-import { SITE } from "@config";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
+import type { LocaleProfile, SupportedLocales } from "@i18n/config";
+import { translateFor } from "@i18n/utils";
 
-export default async (post: CollectionEntry<"blog">) => {
+export default async (
+  post: CollectionEntry<"blog">,
+  localeKey: SupportedLocales[number],
+  localeConfig: LocaleProfile
+) => {
+  const t = translateFor(localeKey);
+
+  const { direction } = localeConfig;
+
+  const siteTitle =
+    direction === "rtl"
+      ? t("site.title").split(" ").reverse().join(" ")
+      : t("site.title");
+
+  const postTitle =
+    direction === "rtl"
+      ? `${post.data.title}`.split(" ").reverse().join(" ")
+      : post.data.title;
+
+  const by = t("by");
+
   return satori(
     <div
       style={{
@@ -62,7 +83,7 @@ export default async (post: CollectionEntry<"blog">) => {
               overflow: "hidden",
             }}
           >
-            {post.data.title}
+            {postTitle}
           </p>
           <div
             style={{
@@ -74,7 +95,7 @@ export default async (post: CollectionEntry<"blog">) => {
             }}
           >
             <span>
-              by{" "}
+              {by}{" "}
               <span
                 style={{
                   color: "transparent",
@@ -88,7 +109,7 @@ export default async (post: CollectionEntry<"blog">) => {
             </span>
 
             <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-              {SITE.title}
+              {siteTitle}
             </span>
           </div>
         </div>
@@ -99,7 +120,8 @@ export default async (post: CollectionEntry<"blog">) => {
       height: 630,
       embedFont: true,
       fonts: (await loadGoogleFonts(
-        post.data.title + post.data.author + SITE.title + "by"
+        postTitle + post.data.author + siteTitle + by,
+        localeConfig.googleFontName
       )) as FontOptions[],
     }
   );

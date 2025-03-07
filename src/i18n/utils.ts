@@ -83,3 +83,39 @@ function buildPrefix(locale: SupportedLocales[number]) {
     (locale === DEFAULT_LOCALE ? "" : locale)
   );
 }
+
+/**
+ * Extracts and returns the locale from a given URL or path.
+ * The function removes the base URL (if present) and checks if the first segment
+ * of the remaining path is a valid locale key.
+ *
+ * @param {string} urlOrPath - The full URL or path from which to extract the locale.
+ *                             Example: `https://example.com/en/posts/1` or `/en/posts/1`.
+ * @returns {SupportedLocales[number] | undefined} - The extracted locale key if valid,
+ *                                                   otherwise `undefined`.
+ * @example
+ * // Returns 'en'
+ * parseLocaleFromUrlOrPath('https://example.com/en/posts/1');
+ *
+ * // Returns 'ar'
+ * parseLocaleFromUrlOrPath('/ar/posts/2');
+ *
+ * // Returns undefined (if the first segment is not a valid locale key)
+ * parseLocaleFromUrlOrPath('/posts/1');
+ */
+export function parseLocaleFromUrlOrPath(
+  urlOrPath: string
+): SupportedLocales[number] | undefined {
+  const url = new URL(urlOrPath, "http://astro-paper-i18n.com");
+  const baseUrl = import.meta.env.BASE_URL;
+
+  const pathWithoutBase = url.pathname.slice(baseUrl.length);
+
+  const possiblelocalkey = pathWithoutBase
+    .replaceAll(/^\/+|\/+$/g, "")
+    .split("/")[0];
+
+  if (isLocaleKey(possiblelocalkey)) {
+    return possiblelocalkey;
+  }
+}

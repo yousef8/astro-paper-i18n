@@ -6,7 +6,6 @@ export const SITE: Site = {
   author: "Yousef Elsayed",
   profile: "https://yousef8.github.io/astro-paper-i18n",
   desc: "AstroPaper fork with i18n support",
-  title: "AstroPaper I18n",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
