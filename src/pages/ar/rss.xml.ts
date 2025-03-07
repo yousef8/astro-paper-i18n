@@ -12,7 +12,7 @@ export async function GET() {
   const sortedPosts = getSortedPosts(posts);
   return rss({
     title: t("site.title"),
-    description: SITE.desc,
+    description: t("site.desc"),
     site: SITE.website,
     items: sortedPosts.map(({ data, slug }) => ({
       link: getRelativePath(`/ar/posts/${slug}/`),

@@ -5,7 +5,6 @@ export type Site = {
   base?: string;
   author: string;
   profile: string;
-  desc: string;
   ogImage?: string;
   lightAndDarkMode: boolean;
   postPerIndex: number;

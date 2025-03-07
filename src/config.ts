@@ -5,7 +5,6 @@ export const SITE: Site = {
   base: "/astro-paper-i18n", // only needed for deployment on github pages other than that remove it or set it to empty string ""
   author: "Yousef Elsayed",
   profile: "https://yousef8.github.io/astro-paper-i18n",
-  desc: "AstroPaper fork with i18n support",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,

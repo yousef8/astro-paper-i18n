@@ -28,7 +28,7 @@ const {
   title = t("site.title"),
   author = SITE.author,
   profile = SITE.profile,
-  description = SITE.desc,
+  description = t("site.desc"),
   ogImage = SITE.ogImage && getRelativePath(SITE.ogImage),
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   pubDatetime,
