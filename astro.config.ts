@@ -5,11 +5,20 @@ import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { SITE } from "./src/config";
+import {
+  DEFAULT_LOCALE,
+  LOCALES_TO_LANG,
+  SUPPORTED_LOCALES,
+} from "./src/i18n/config";
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
   ...(SITE.base && import.meta.env.PROD && { base: SITE.base }),
+  i18n: {
+    locales: SUPPORTED_LOCALES,
+    defaultLocale: DEFAULT_LOCALE,
+  },
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -17,6 +26,10 @@ export default defineConfig({
     react(),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      i18n: {
+        defaultLocale: DEFAULT_LOCALE,
+        locales: LOCALES_TO_LANG,
+      },
     }),
   ],
   markdown: {

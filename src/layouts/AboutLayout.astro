@@ -1,8 +1,8 @@
 ---
-import { SITE } from "@config";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
+import { translateFor } from "@i18n/utils";
 import Layout from "./Layout.astro";
 
 export interface Props {
@@ -12,10 +12,16 @@ export interface Props {
   };
 }
 
+const t = translateFor(Astro.currentLocale);
+
 const { frontmatter } = Astro.props;
+
+const siteTitle = t("site.title");
+const pageTitle = t("about");
+const title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${siteTitle}`;
 ---
 
-<Layout title={`${frontmatter.title} | ${SITE.title}`}>
+<Layout title={title}>
   <Header activeNav="about" />
   <Breadcrumbs />
   <main id="main-content">

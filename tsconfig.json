@@ -11,7 +11,8 @@
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
       "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@i18n/*": ["i18n/*"]
     }
   }
 }

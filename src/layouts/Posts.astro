@@ -5,24 +5,30 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
 import Card from "@components/Card";
-import { SITE } from "@config";
 import type { Page } from "astro";
 import type { CollectionEntry } from "astro:content";
+import { translateFor } from "@i18n/utils";
 
 export interface Props {
   page: Page<CollectionEntry<"blog">>;
 }
 
+const t = translateFor(Astro.currentLocale);
+
 const { page } = Astro.props;
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
+<Layout title={`${t("posts")} | ${t("site.title")}`}>
   <Header activeNav="posts" />
-  <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
+  <Main pageTitle={t("posts")} pageDesc={t("posts.desc")}>
     <ul>
       {
         page.data.map(({ data, slug }) => (
-          <Card href={`/posts/${slug}/`} frontmatter={data} />
+          <Card
+            href={`/posts/${slug}/`}
+            frontmatter={data}
+            currentLocale={Astro.currentLocale}
+          />
         ))
       }
     </ul>

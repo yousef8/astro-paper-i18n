@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import { SITE, SOCIALS } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
@@ -9,6 +8,7 @@ import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
+import { SITE, SOCIALS } from "@config";
 import { translateFor, getRelativeLocalePath } from "@i18n/utils";
 
 const posts = await getCollection("blog");

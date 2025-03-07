@@ -2,10 +2,14 @@
 import { SOCIALS } from "@config";
 import LinkButton from "./LinkButton.astro";
 import socialIcons from "@assets/socialIcons";
+import { translateFor } from "@i18n/utils";
+import type { I18nStrings } from "@i18n/types";
 
 export interface Props {
   centered?: boolean;
 }
+
+const t = translateFor(Astro.currentLocale);
 
 const { centered = false } = Astro.props;
 ---
@@ -16,10 +20,12 @@ const { centered = false } = Astro.props;
       <LinkButton
         href={social.href}
         className="link-button"
-        title={social.linkTitle}
+        title={t(`socials.${social.name.toLowerCase()}` as keyof I18nStrings)}
       >
         <Fragment set:html={socialIcons[social.name]} />
-        <span class="sr-only">{social.linkTitle}</span>
+        <span class="sr-only">
+          {t(`socials.${social.name.toLowerCase()}` as keyof I18nStrings)}
+        </span>
       </LinkButton>
     ))
   }

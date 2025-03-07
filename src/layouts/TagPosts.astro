@@ -5,9 +5,9 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import Pagination from "@components/Pagination.astro";
-import { SITE } from "@config";
 import type { Page } from "astro";
 import type { CollectionEntry } from "astro:content";
+import { translateFor } from "@i18n/utils";
 
 export interface Props {
   page: Page<CollectionEntry<"blog">>;
@@ -15,21 +15,27 @@ export interface Props {
   tagName: string;
 }
 
+const t = translateFor(Astro.currentLocale);
+
 const { page, tag, tagName } = Astro.props;
 ---
 
-<Layout title={`Tag: ${tagName} | ${SITE.title}`}>
+<Layout title={`${t("tag")}: ${tagName} | ${t("site.title")}`}>
   <Header activeNav="tags" />
   <Main
-    pageTitle={[`Tag:`, `${tagName}`]}
+    pageTitle={[`${t("tag")}:`, `${tagName}`]}
     titleTransition={tag}
-    pageDesc={`All the articles with the tag "${tagName}".`}
+    pageDesc={t("tag.desc", { name: tagName })}
   >
     <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
       {
         page.data.map(({ data, slug }) => (
-          <Card href={`/posts/${slug}/`} frontmatter={data} />
+          <Card
+            href={`/posts/${slug}/`}
+            frontmatter={data}
+            currentLocale={Astro.currentLocale}
+          />
         ))
       }
     </ul>

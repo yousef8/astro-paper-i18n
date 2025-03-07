@@ -5,7 +5,7 @@ import { SITE } from "@config";
 import getRelativePath from "@utils/getRelativePath";
 import { translateFor } from "@i18n/utils";
 
-const t = translateFor("en");
+const t = translateFor("ar");
 
 export async function GET() {
   const posts = await getCollection("blog");
@@ -15,7 +15,7 @@ export async function GET() {
     description: SITE.desc,
     site: SITE.website,
     items: sortedPosts.map(({ data, slug }) => ({
-      link: getRelativePath(`posts/${slug}/`),
+      link: getRelativePath(`/ar/posts/${slug}/`),
       title: data.title,
       description: data.description,
       pubDate: new Date(data.modDatetime ?? data.pubDatetime),

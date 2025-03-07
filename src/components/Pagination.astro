@@ -2,20 +2,30 @@
 import type { Page } from "astro";
 import LinkButton from "./LinkButton.astro";
 import type { CollectionEntry } from "astro:content";
+import { getLocaleInfo, translateFor } from "@i18n/utils";
+import { DEFAULT_LOCALE } from "@i18n/config";
 
 export interface Props {
   page: Page<CollectionEntry<"blog">>;
 }
 
+const t = translateFor(Astro.currentLocale);
+const LOCALE = getLocaleInfo(Astro.currentLocale);
+
 const { page } = Astro.props;
+
+const currentLocale = Astro.currentLocale;
+
+const localePrefix =
+  "/" + (currentLocale === DEFAULT_LOCALE ? "" : currentLocale);
 ---
 
 {
   page.lastPage > 1 && (
-    <nav class="pagination-wrapper" aria-label="Pagination">
+    <nav class="pagination-wrapper" aria-label={t("a11y.pagination")}>
       <LinkButton
         disabled={!page.url.prev}
-        href={page.url.prev as string}
+        href={page.url.prev?.slice(localePrefix.length) as string}
         className={`me-4 select-none ${page.url.prev ? "" : "disabled"}`}
         ariaLabel="Previous"
       >
@@ -24,17 +34,18 @@ const { page } = Astro.props;
           class:list={[{ "disabled-svg": !page.url.prev }, "rtl:rotate-180"]}
         >
           <path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z" />
-        </svg>
-        Prev
+        </svg>{" "}
+        {t("pagination.prev")}
       </LinkButton>
-      {page.currentPage} / {page.lastPage}
+      {page.currentPage.toLocaleString(LOCALE.langTag)} /{" "}
+      {page.lastPage.toLocaleString(LOCALE.langTag)}
       <LinkButton
         disabled={!page.url.next}
-        href={page.url.next as string}
+        href={page.url.next?.slice(localePrefix.length) as string}
         className={`mx-4 select-none ${page.url.next ? "" : "disabled"}`}
         ariaLabel="Next"
       >
-        Next
+        {t("pagination.next")}{" "}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class:list={[{ "disabled-svg": !page.url.next }, "rtl:rotate-180"]}

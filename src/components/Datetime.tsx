@@ -1,19 +1,23 @@
-import { LOCALE, SITE } from "@config";
+import { SITE } from "@config";
+import { getLocaleInfo, translateFor } from "@i18n/utils";
 import type { CollectionEntry } from "astro:content";
 
 interface DatetimesProps {
   pubDatetime: string | Date;
   modDatetime: string | Date | undefined | null;
+  currentLocale: string | undefined;
 }
 
 interface EditPostProps {
   editPost?: CollectionEntry<"blog">["data"]["editPost"];
   postId?: CollectionEntry<"blog">["id"];
+  currentLocale: string | undefined;
 }
 
 interface Props extends DatetimesProps, EditPostProps {
   size?: "sm" | "lg";
   className?: string;
+  currentLocale: string | undefined;
 }
 
 export default function Datetime({
@@ -23,7 +27,10 @@ export default function Datetime({
   className = "",
   editPost,
   postId,
+  currentLocale,
 }: Props) {
+  const t = translateFor(currentLocale);
+
   return (
     <div
       className={`flex items-center space-x-2 opacity-80 rtl:space-x-reverse ${className}`.trim()}
@@ -40,23 +47,35 @@ export default function Datetime({
       </svg>
       {modDatetime && modDatetime > pubDatetime ? (
         <span className={`italic ${size === "sm" ? "text-sm" : "text-base"}`}>
-          Updated:
+          {t("date.updated")}:
         </span>
       ) : (
-        <span className="sr-only">Published:</span>
+        <span className="sr-only">{t("date.published")}:</span>
       )}
       <span className={`italic ${size === "sm" ? "text-sm" : "text-base"}`}>
         <FormattedDatetime
           pubDatetime={pubDatetime}
           modDatetime={modDatetime}
+          currentLocale={currentLocale}
         />
-        {size === "lg" && <EditPost editPost={editPost} postId={postId} />}
+        {size === "lg" && (
+          <EditPost
+            editPost={editPost}
+            postId={postId}
+            currentLocale={currentLocale}
+          />
+        )}
       </span>
     </div>
   );
 }
 
-const FormattedDatetime = ({ pubDatetime, modDatetime }: DatetimesProps) => {
+const FormattedDatetime = ({
+  pubDatetime,
+  modDatetime,
+  currentLocale,
+}: DatetimesProps) => {
+  const LOCALE = getLocaleInfo(currentLocale);
   const myDatetime = new Date(
     modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime
   );
@@ -82,7 +101,7 @@ const FormattedDatetime = ({ pubDatetime, modDatetime }: DatetimesProps) => {
   );
 };
 
-const EditPost = ({ editPost, postId }: EditPostProps) => {
+const EditPost = ({ editPost, postId, currentLocale }: EditPostProps) => {
   let editPostUrl = editPost?.url ?? SITE?.editPost?.url ?? "";
   const showEditPost = !editPost?.disabled && editPostUrl.length > 0;
   const appendFilePath =
@@ -90,7 +109,9 @@ const EditPost = ({ editPost, postId }: EditPostProps) => {
   if (appendFilePath && postId) {
     editPostUrl += `/${postId}`;
   }
-  const editPostText = editPost?.text ?? SITE?.editPost?.text ?? "Edit";
+  const t = translateFor(currentLocale);
+
+  const editPostText = editPost?.text ?? t("suggestChanges") ?? "Edit";
 
   return (
     showEditPost && (

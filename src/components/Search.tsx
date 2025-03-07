@@ -2,6 +2,7 @@ import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo, type FormEvent } from "react";
 import Card from "@components/Card";
 import type { CollectionEntry } from "astro:content";
+import { translateFor } from "@i18n/utils";
 
 export type SearchItem = {
   title: string;
@@ -12,6 +13,7 @@ export type SearchItem = {
 
 interface Props {
   searchList: SearchItem[];
+  currentLocale: string | undefined;
 }
 
 interface SearchResult {
@@ -19,7 +21,7 @@ interface SearchResult {
   refIndex: number;
 }
 
-export default function SearchBar({ searchList }: Props) {
+export default function SearchBar({ searchList, currentLocale }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputVal, setInputVal] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
@@ -29,6 +31,8 @@ export default function SearchBar({ searchList }: Props) {
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
   };
+
+  const t = translateFor(currentLocale);
 
   const fuse = useMemo(
     () =>
@@ -87,11 +91,11 @@ export default function SearchBar({ searchList }: Props) {
           <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path>
           </svg>
-          <span className="sr-only">Search</span>
+          <span className="sr-only">{t("search")}</span>
         </span>
         <input
           className="block w-full rounded border border-skin-fill/40 bg-skin-fill py-3 pe-3 ps-10 placeholder:italic focus:border-skin-accent focus:outline-none"
-          placeholder="Search for anything..."
+          placeholder={`${t("search.placeholder")}...`}
           type="text"
           name="search"
           value={inputVal}
@@ -119,6 +123,7 @@ export default function SearchBar({ searchList }: Props) {
               href={`/posts/${item.slug}/`}
               frontmatter={item.data}
               key={`${refIndex}-${item.slug}`}
+              currentLocale={currentLocale}
             />
           ))}
       </ul>
