@@ -2,20 +2,29 @@ import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SITE } from "@config";
-import getRelativePath from "@utils/getRelativePath";
-import { translateFor } from "@i18n/utils";
+import {
+  getRelativeLocalePath,
+  parseLocaleFromUrlOrPath,
+  translateFor,
+} from "@i18n/utils";
+import type { APIContext } from "astro";
+import { DEFAULT_LOCALE } from "@i18n/config";
 
-const t = translateFor("en");
+export async function GET(context: APIContext) {
+  const localeKey =
+    parseLocaleFromUrlOrPath(context.url.href) ?? DEFAULT_LOCALE;
 
-export async function GET() {
+  const t = translateFor(localeKey);
+
   const posts = await getCollection("blog");
   const sortedPosts = getSortedPosts(posts);
+
   return rss({
     title: t("site.title"),
     description: t("site.desc"),
-    site: SITE.website,
+    site: new URL(getRelativeLocalePath(localeKey), SITE.website).href,
     items: sortedPosts.map(({ data, slug }) => ({
-      link: getRelativePath(`posts/${slug}/`),
+      link: getRelativeLocalePath(localeKey, `/posts/${slug}/`),
       title: data.title,
       description: data.description,
       pubDate: new Date(data.modDatetime ?? data.pubDatetime),

@@ -37,7 +37,6 @@ This Fork does not modify the original theme’s UI; it solely adds i18n support
     - [Create Translations](#create-translations)
   - [📂 Pages folder structure](#-pages-folder-structure)
     - [📄 Shared Files](#-shared-files)
-    - [🔗 RSS Feeds](#-rss-feeds)
 - [🚧 Known Issues](#-known-issues)
 
 ## 🔥 Features
@@ -59,9 +58,8 @@ This project includes all the features of the original [AstroPaper](https://gith
 - [x] Sitemaps with i18n support ([`@astrojs/sitemap`](https://docs.astro.build/en/guides/integrations-guide/sitemap/)).
 - [x] OG image generation with i18n support
   - Note: satori does not support RTL languages, causing layout issues for RTL OG images.
+- [x] RSS Feeds with i18n support ([`@astrojs/rss`](https://docs.astro.build/en/guides/rss/)).
 - [ ] 📋 **Planned:**
-  - [ ] RSS Feeds with i18n support ([`@astrojs/rss`](https://docs.astro.build/en/guides/rss/)).
-    - Currently, subscribing to RSS will feed users by articles from all locales.
   - [ ] Route translations.
 
 ### 🧪 Testing (📋 Planned)
@@ -181,7 +179,7 @@ Key Points About Locale Configuration
 
    - this type will enforce all the necessary translations that should be populated by any translation
    - take a look at the type at [/src/i18n/types.ts](/src/i18n/types.ts)
-   - **OR** just copy the contents one of already existing translation files [src/i18n/locales/ar.ts](/src/i18n/locales/ar.ts) or [src/en.ts](/src/i18n/locales/en.ts) and change the translations with yours
+   - **OR** just copy the contents one of already existing translation files [src/i18n/locales/ar.ts](/src/i18n/locales/ar.ts) or [src/i18n/locales/en.ts](/src/i18n/locales/en.ts) and change the translations with yours
 
 3. Import that translation in `src/i18n/config` and assign it as a value to `messages` key in your locale profile
 
@@ -192,34 +190,9 @@ But you can just check how it's structured now and mimic it - if you are that la
 
 #### 📄 Shared Files
 
-- Only one `404.astro` and `robots.txt.ts` is needed for the entire site. Place them in the root [src/pages](/src/pages) directory.
+Only one `404.astro` and `robots.txt.ts` is needed for the entire site. Place them in the root [src/pages](/src/pages) directory.
 
 Other than that all files should exist in each local folder
-
-#### 🔗 RSS Feeds
-
-For each locale's `rss.xml.ts`, update the link key to include the locale key in the path.
-
-Example:
-
-```diff
-export async function GET() {
-  const posts = await getCollection("blog");
-  const sortedPosts = getSortedPosts(posts);
-  return rss({
-    title: t("site.title"),
-    description: SITE.desc,
-    site: SITE.website,
-    items: sortedPosts.map(({ data, slug }) => ({
--      link: getRelativePath(`/ar/posts/${slug}/`),
-+      link: getRelativePath(`/<replace with your locale key>/posts/${slug}/`),
-      title: data.title,
-      description: data.description,
-      pubDate: new Date(data.modDatetime ?? data.pubDatetime),
-    })),
-  });
-}
-```
 
 ## 🚧 Known Issues
 
