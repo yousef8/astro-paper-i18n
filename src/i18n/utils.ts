@@ -32,10 +32,6 @@ export function isLocaleKey(locale: string | undefined): locale is LocaleKey {
   return SUPPORTED_LOCALES.includes(locale as LocaleKey);
 }
 
-export function isValidLocaleKey(locale: string): boolean {
-  return SUPPORTED_LOCALES.includes(locale as LocaleKey);
-}
-
 export function getLocaleInfo(locale?: string): LocaleProfile {
   // TODO: rename to getLocaleConfig
   // TODO: throw an error instead of default locale
@@ -45,9 +41,9 @@ export function getLocaleInfo(locale?: string): LocaleProfile {
 }
 
 export function isPathLocalized(path: string): boolean {
-  // TODO: refactor extractingthe locale part from path
+  // TODO: refactor extracting the locale part from path
   const possibleLocalKeyInPath = path.replace(/^\/+/, "").split("/")[0];
-  return isValidLocaleKey(possibleLocalKeyInPath);
+  return isLocaleKey(possibleLocalKeyInPath);
 }
 
 export function getRelativeLocalePath(

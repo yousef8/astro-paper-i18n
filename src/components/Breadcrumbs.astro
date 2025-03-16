@@ -4,7 +4,7 @@ import {
   getLocaleInfo,
   getRelativeLocalePath,
   translateFor,
-  isValidLocaleKey,
+  isLocaleKey,
 } from "@i18n/utils";
 
 const t = translateFor(Astro.currentLocale);
@@ -24,7 +24,7 @@ const breadcrumbList = currentUrlPath.split("/");
 
 // Remove locale key at path beginning if exists
 // eg: ['ar', 'tags'] => ['tags']
-if (isValidLocaleKey(breadcrumbList[0])) {
+if (isLocaleKey(breadcrumbList[0])) {
   breadcrumbList.splice(0, 1);
 }
 

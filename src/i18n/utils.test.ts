@@ -1,7 +1,6 @@
 import {
   translateFor,
   isLocaleKey,
-  isValidLocaleKey,
   getLocaleInfo,
   isPathLocalized,
   getRelativeLocalePath,
@@ -44,18 +43,6 @@ describe("isLocaleKey", () => {
 
   it("should return false for unsupported locales", () => {
     expect(isLocaleKey("unsupported")).toBe(false);
-  });
-});
-
-describe("isValidLocaleKey", () => {
-  it("should return true for supported locales", () => {
-    SUPPORTED_LOCALES.forEach(locale => {
-      expect(isValidLocaleKey(locale)).toBe(true);
-    });
-  });
-
-  it("should return false for unsupported locales", () => {
-    expect(isValidLocaleKey("unsupported")).toBe(false);
   });
 });
 
