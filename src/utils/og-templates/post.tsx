@@ -1,12 +1,12 @@
 import satori from "satori";
 import type { CollectionEntry } from "astro:content";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
-import type { LocaleProfile, SupportedLocales } from "@i18n/config";
+import type { LocaleProfile, LocaleKey } from "@i18n/config";
 import { translateFor } from "@i18n/utils";
 
 export default async (
   post: CollectionEntry<"blog">,
-  localeKey: SupportedLocales[number],
+  localeKey: LocaleKey,
   localeConfig: LocaleProfile
 ) => {
   const t = translateFor(localeKey);

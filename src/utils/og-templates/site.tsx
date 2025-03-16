@@ -2,12 +2,9 @@ import satori from "satori";
 import { SITE } from "@config";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
 import { translateFor } from "@i18n/utils";
-import type { LocaleProfile, SupportedLocales } from "@i18n/config";
+import type { LocaleProfile, LocaleKey } from "@i18n/config";
 
-export default async (
-  localKey: SupportedLocales[number],
-  localeConfig: LocaleProfile
-) => {
+export default async (localKey: LocaleKey, localeConfig: LocaleProfile) => {
   const t = translateFor(localKey);
 
   const siteTitle =

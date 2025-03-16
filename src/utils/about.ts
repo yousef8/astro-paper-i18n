@@ -1,4 +1,4 @@
-import type { SupportedLocales } from "@i18n/config";
+import type { LocaleKey } from "@i18n/config";
 import { getEntry } from "astro:content";
 
 /**
@@ -7,5 +7,5 @@ import { getEntry } from "astro:content";
  * @param locale - The locale to retrieve about page content for.
  * @returns Promise resolving to the about page entry for the specified locale or undefined if not found.
  */
-export const getAboutForLocale = async (locale: SupportedLocales[number]) =>
+export const getAboutForLocale = async (locale: LocaleKey) =>
   getEntry("about", `about${locale}`);

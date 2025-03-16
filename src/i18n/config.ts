@@ -11,7 +11,7 @@ export type LocaleProfile = {
   default?: boolean;
 };
 
-export type SupportedLocales = Array<keyof typeof localeToProfile>;
+export type LocaleKey = keyof typeof localeToProfile;
 
 export const localeToProfile = {
   // locale key must be in lowercase
@@ -32,9 +32,7 @@ export const localeToProfile = {
   },
 } satisfies Record<string, LocaleProfile>;
 
-export const SUPPORTED_LOCALES = Object.keys(
-  localeToProfile
-) as SupportedLocales;
+export const SUPPORTED_LOCALES = Object.keys(localeToProfile) as LocaleKey[];
 
 export const DEFAULT_LOCALE =
   SUPPORTED_LOCALES.find(

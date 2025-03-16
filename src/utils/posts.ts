@@ -1,13 +1,13 @@
-import type { SupportedLocales } from "@i18n/config";
+import type { LocaleKey } from "@i18n/config";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 type GetPostsOptions = {
   draft?: boolean;
-  allowedLocales?: SupportedLocales;
+  allowedLocales?: LocaleKey[];
 };
 
 type groupPostsByLocaleOptions = {
-  allowedLocales?: SupportedLocales;
+  allowedLocales?: LocaleKey[];
 };
 
 /**
@@ -18,7 +18,7 @@ type groupPostsByLocaleOptions = {
  * @returns Array of blog posts for the specified locale.
  */
 export const getPostsByLocale = async (
-  locale: SupportedLocales[number],
+  locale: LocaleKey,
   { draft = true }: { draft?: boolean } = {}
 ) => {
   const postsByLocale = await getPostsGroupedByLocale({
@@ -59,8 +59,7 @@ export const getPosts = async ({
 
       return (
         (draft || !data.draft) &&
-        (!allowedLocales.length ||
-          allowedLocales.includes(locale as SupportedLocales[number]))
+        (!allowedLocales.length || allowedLocales.includes(locale as LocaleKey))
       );
     }
   );
@@ -106,7 +105,7 @@ export const groupPostsByLocale = (
 
   const filteredPostsByLocale = Object.fromEntries(
     Object.entries(postsByLocale).filter(([locale]) =>
-      allowedLocales.includes(locale as SupportedLocales[number])
+      allowedLocales.includes(locale as LocaleKey)
     )
   );
 
