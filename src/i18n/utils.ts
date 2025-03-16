@@ -1,12 +1,13 @@
+import { UnsupportedLocale } from "@i18n/errors";
 import { type GetLocaleOptions, getRelativeLocaleUrl } from "astro:i18n";
 import {
-  type LocaleProfile,
   type LocaleKey,
+  type LocaleProfile,
   DEFAULT_LOCALE,
   localeToProfile,
   SUPPORTED_LOCALES,
-} from "./config";
-import type { I18nKeys } from "./types";
+} from "@i18n/config";
+import type { I18nKeys } from "@i18n/types";
 
 // TODO: Convert all to pure functions
 
@@ -54,9 +55,9 @@ export function getRelativeLocalePath(
   path: string = "/",
   options?: GetLocaleOptions
 ): string {
-  const localeKey = resolveLocale(locale);
+  if (!isLocaleKey(locale)) throw new UnsupportedLocale(locale);
 
-  const localizedPath = getRelativeLocaleUrl(localeKey, path, options);
+  const localizedPath = getRelativeLocaleUrl(locale, path, options);
 
   const hasTrailingSlash = path.endsWith("/") || localizedPath === "/";
 
@@ -65,26 +66,10 @@ export function getRelativeLocalePath(
   return localizedPath.replace(/\/+$/, "");
 }
 
-export function resolveLocale(locale: string | undefined): LocaleKey {
-  // TODO: get rid off that function and create only 1 custom error class,
-  // no need for 2 error class just for different locale values. - What was i thinking -
-  if (!locale) {
-    throw new Error("locale key is undefined");
-  }
-
-  if (!isLocaleKey(locale)) {
-    throw new Error(
-      `'${locale}' locale is not supported, add it to i18n/config or choose a supported locale`
-    );
-  }
-
-  return locale;
-}
-
 export function stripBaseAndLocale(locale: string | undefined, path: string) {
-  const localeKey = resolveLocale(locale);
+  if (!isLocaleKey(locale)) throw new UnsupportedLocale(locale);
 
-  const prefix = buildPrefix(localeKey);
+  const prefix = buildPrefix(locale);
 
   // TODO: for default locale it shouldn't remove leading slash
   // TODO: it should handle if path doesn't have a leading slash

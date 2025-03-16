@@ -5,7 +5,6 @@ import {
   getLocaleInfo,
   isPathLocalized,
   getRelativeLocalePath,
-  resolveLocale,
   stripBaseAndLocale,
   parseLocaleFromUrlOrPath,
 } from "@i18n/utils";
@@ -128,21 +127,6 @@ describe("getRelativeLocalePath", () => {
 
   it("should return `/` if empty path `` supplied for default locale", () => {
     expect(getRelativeLocalePath(DEFAULT_LOCALE, "")).toBe("/");
-  });
-});
-
-describe("resolveLocale", () => {
-  it("should return the locale if it is supported", () => {
-    const locale = SUPPORTED_LOCALES[0];
-    expect(resolveLocale(locale)).toBe(locale);
-  });
-
-  it("should throw an error if the locale is not supported", () => {
-    expect(() => resolveLocale("unsupported")).toThrow();
-  });
-
-  it("should throw an error if the locale is undefined", () => {
-    expect(() => resolveLocale(undefined)).toThrow();
   });
 });
 
