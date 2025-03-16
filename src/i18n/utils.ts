@@ -26,7 +26,8 @@ export function translateFor(locale: string | undefined) {
   };
 }
 
-export function isLocaleKey(locale: string): locale is LocaleKey {
+export function isLocaleKey(locale: string | undefined): locale is LocaleKey {
+  if (typeof locale !== "string") return false;
   return SUPPORTED_LOCALES.includes(locale as LocaleKey);
 }
 
@@ -37,7 +38,7 @@ export function isValidLocaleKey(locale: string): boolean {
 export function getLocaleInfo(locale?: string): LocaleProfile {
   // TODO: rename to getLocaleConfig
   // TODO: throw an error instead of default locale
-  return locale && isLocaleKey(locale)
+  return isLocaleKey(locale)
     ? localeToProfile[locale]
     : localeToProfile[DEFAULT_LOCALE];
 }
