@@ -8,6 +8,7 @@ import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
+import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
@@ -49,7 +50,7 @@ if (typeof initOgImage === "string") {
 if (!ogImageUrl && SITE.dynamicOgImage) {
   ogImageUrl = getRelativeLocalePath(
     Astro.currentLocale,
-    `/posts/${slugifyStr(title)}/index.png`
+    `${getPath(post.id, post.filePath)}/index.png`
   );
 }
 
