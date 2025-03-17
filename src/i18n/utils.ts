@@ -7,16 +7,22 @@ import {
   localeToProfile,
   SUPPORTED_LOCALES,
 } from "@i18n/config";
-import type { I18nKeys } from "@i18n/types";
+import type { I18nKeys, I18nStrings } from "@i18n/types";
 
 // TODO: Convert all to pure functions
 
-export function translateFor(locale: string | undefined) {
-  // TODO: typescript support for placeholders like for ('tag.desc', {name: ''})
-  // TODO: should throw an error in case locale key not supported
-  locale = locale ?? DEFAULT_LOCALE;
+export function translateFor(
+  locale: string | undefined,
+  _isLocaleKey: (
+    locale: string | undefined
+  ) => locale is LocaleKey = isLocaleKey,
+  _getLocaleMsgs: (locale: LocaleKey) => I18nStrings = getLocaleMsgs
+) {
+  if (!_isLocaleKey(locale)) throw new UnsupportedLocale(locale);
+  const msgs = _getLocaleMsgs(locale);
+
   return (key: I18nKeys, substitutions?: Record<string, string | number>) => {
-    let translation = localeToProfile[locale as LocaleKey].messages[key];
+    let translation = msgs[key];
 
     for (const key in substitutions) {
       const value = substitutions[key];
@@ -25,6 +31,13 @@ export function translateFor(locale: string | undefined) {
 
     return translation;
   };
+}
+
+function getLocaleMsgs(
+  locale: LocaleKey,
+  getLocaleConfig: (locale: LocaleKey) => LocaleProfile = getLocaleInfo
+): I18nStrings {
+  return getLocaleConfig(locale).messages;
 }
 
 export function isLocaleKey(locale: string | undefined): locale is LocaleKey {

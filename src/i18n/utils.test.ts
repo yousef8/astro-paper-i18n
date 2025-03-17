@@ -1,18 +1,19 @@
 import {
-  translateFor,
-  isLocaleKey,
-  getLocaleInfo,
-  isPathLocalized,
-  getRelativeLocalePath,
-  stripBaseAndLocale,
-  parseLocaleFromUrlOrPath,
-} from "@i18n/utils";
-import {
   DEFAULT_LOCALE,
   localeToProfile,
   SUPPORTED_LOCALES,
 } from "@i18n/config";
-import { describe, it, expect } from "vitest";
+import { UnsupportedLocale } from "@i18n/errors";
+import {
+  getLocaleInfo,
+  getRelativeLocalePath,
+  isLocaleKey,
+  isPathLocalized,
+  parseLocaleFromUrlOrPath,
+  stripBaseAndLocale,
+  translateFor,
+} from "@i18n/utils";
+import { describe, expect, it } from "vitest";
 
 describe("translateFor", () => {
   it("should return a function that translates a key for the given locale", () => {
@@ -26,11 +27,8 @@ describe("translateFor", () => {
     expect(translation).toBe("Page 1");
   });
 
-  it("should default to DEFAULT_LOCALE if no locale is provided", () => {
-    const translate = translateFor(undefined);
-    expect(translate("home")).toBe(
-      localeToProfile[DEFAULT_LOCALE].messages["home"]
-    );
+  it("should throw error if no locale is provided", () => {
+    expect(() => translateFor(undefined)).toThrow(UnsupportedLocale);
   });
 });
 
