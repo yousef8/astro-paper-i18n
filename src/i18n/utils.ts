@@ -85,12 +85,14 @@ export function stripBaseAndLocale(locale: string | undefined, path: string) {
   return path.slice(prefix.length);
 }
 
-function buildPrefix(locale: LocaleKey) {
-  const baseUrl = import.meta.env.BASE_URL;
-
+function buildPrefix(
+  locale: LocaleKey,
+  defaultLocale: LocaleKey = DEFAULT_LOCALE,
+  baseUrl: string = import.meta.env.BASE_URL
+) {
   return (
     baseUrl +
     (baseUrl.endsWith("/") ? "" : "/") +
-    (locale === DEFAULT_LOCALE ? "" : locale)
+    (locale === defaultLocale ? "" : locale)
   );
 }
