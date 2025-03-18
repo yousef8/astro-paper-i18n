@@ -24,21 +24,18 @@
   "engines": {
     "node": "20.19.0"
   },
-  "overrides": {
-    "vite": "6.2.2"
-  },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "@resvg/resvg-js": "^2.6.2",
-    "@tailwindcss/vite": "^4.0.12",
+    "@tailwindcss/vite": "^4.0.14",
     "astro": "^5.5.4",
     "lodash.kebabcase": "^4.1.1",
     "remark-collapse": "^0.1.2",
     "remark-toc": "^9.0.0",
     "satori": "^0.12.1",
     "sharp": "^0.33.5",
-    "tailwindcss": "^4.0.12"
+    "tailwindcss": "^4.0.14"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
@@ -48,7 +45,7 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@commitlint/cz-commitlint": "^19.6.1",
     "@types/lodash.kebabcase": "^4.1.9",
-    "@typescript-eslint/parser": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^9.22.0",
     "eslint-plugin-astro": "^1.3.1",
     "globals": "^16.0.0",
@@ -61,7 +58,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.0",
+    "typescript-eslint": "^8.26.1",
     "vitest": "^3.0.6"
   }
 }
