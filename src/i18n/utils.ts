@@ -45,12 +45,13 @@ export function isLocaleKey(locale: string | undefined): locale is LocaleKey {
   return SUPPORTED_LOCALES.includes(locale as LocaleKey);
 }
 
-export function getLocaleInfo(locale?: string): LocaleProfile {
-  // TODO: rename to getLocaleConfig
-  // TODO: throw an error instead of default locale
-  return isLocaleKey(locale)
-    ? localeToProfile[locale]
-    : localeToProfile[DEFAULT_LOCALE];
+export function getLocaleInfo(
+  locale?: string,
+  _isLocaleKey: (locale?: string) => locale is LocaleKey = isLocaleKey
+): LocaleProfile {
+  if (!_isLocaleKey(locale)) throw new UnsupportedLocale(locale);
+
+  return localeToProfile[locale];
 }
 
 export function isPathLocalized(path: string): boolean {

@@ -50,14 +50,12 @@ describe("getLocaleInfo", () => {
     expect(getLocaleInfo(locale)).toEqual(localeToProfile[locale]);
   });
 
-  it("should return the default locale profile for an unsupported locale", () => {
-    expect(getLocaleInfo("unsupported")).toEqual(
-      localeToProfile[DEFAULT_LOCALE]
-    );
+  it("should throw error for an unsupported locale", () => {
+    expect(() => getLocaleInfo("unsupported")).toThrowError(UnsupportedLocale);
   });
 
-  it("should return the default locale profile if no locale is provided", () => {
-    expect(getLocaleInfo(undefined)).toEqual(localeToProfile[DEFAULT_LOCALE]);
+  it("should throw if no locale is provided", () => {
+    expect(() => getLocaleInfo(undefined)).toThrowError(UnsupportedLocale);
   });
 });
 
