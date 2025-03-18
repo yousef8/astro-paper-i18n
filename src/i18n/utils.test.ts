@@ -14,21 +14,34 @@ import {
   translateFor,
 } from "@i18n/utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { I18nStrings } from "./types";
 
 describe("translateFor", () => {
+  it("should throw error if no locale is provided", () => {
+    expect(() => translateFor(undefined)).toThrow(UnsupportedLocale);
+  });
+
   it("should return a function that translates a key for the given locale", () => {
-    const translate = translateFor("en");
-    expect(translate("home")).toBe(localeToProfile["en"].messages["home"]);
+    const isLocalKey = (locale?: string): locale is LocaleKey => true;
+    const getLocaleMsgs = (locale: LocaleKey) => {
+      const msgs: I18nStrings = { home: "casa" } as I18nStrings;
+      if (locale) return msgs;
+      return msgs;
+    };
+    const translate = translateFor("es", isLocalKey, getLocaleMsgs);
+    expect(translate("home")).toBe("casa");
   });
 
   it("should substitute placeholders in the translation", () => {
-    const translate = translateFor("en");
+    const isLocalKey = (locale?: string): locale is LocaleKey => true;
+    const getLocaleMsgs = (locale: LocaleKey) => {
+      const msgs: I18nStrings = { pageWithNo: "Página {no}" } as I18nStrings;
+      if (locale) return msgs;
+      return msgs;
+    };
+    const translate = translateFor("es", isLocalKey, getLocaleMsgs);
     const translation = translate("pageWithNo", { no: "1" });
-    expect(translation).toBe("Page 1");
-  });
-
-  it("should throw error if no locale is provided", () => {
-    expect(() => translateFor(undefined)).toThrow(UnsupportedLocale);
+    expect(translation).toBe("Página 1");
   });
 });
 
