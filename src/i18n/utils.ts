@@ -85,14 +85,14 @@ export function stripBaseAndLocale(locale: string | undefined, path: string) {
   return path.slice(prefix.length);
 }
 
-function buildPrefix(
+export function buildPrefix(
   locale: LocaleKey,
   defaultLocale: LocaleKey = DEFAULT_LOCALE,
   baseUrl: string = import.meta.env.BASE_URL
-) {
-  return (
-    baseUrl +
-    (baseUrl.endsWith("/") ? "" : "/") +
-    (locale === defaultLocale ? "" : locale)
-  );
+): string {
+  const isDefaultLocale = locale === defaultLocale;
+  const baseWithLocale =
+    baseUrl.replace(/\/+$/, "") + (isDefaultLocale ? "" : `/${locale}`);
+
+  return new URL(baseWithLocale, "http://foo.com").pathname;
 }

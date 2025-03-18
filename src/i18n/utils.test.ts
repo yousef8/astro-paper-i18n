@@ -2,9 +2,11 @@ import {
   DEFAULT_LOCALE,
   localeToProfile,
   SUPPORTED_LOCALES,
+  type LocaleKey,
 } from "@i18n/config";
 import { UnsupportedLocale } from "@i18n/errors";
 import {
+  buildPrefix,
   getLocaleInfo,
   getRelativeLocalePath,
   isLocaleKey,
@@ -119,4 +121,38 @@ describe("stripBaseAndLocale", () => {
     "should handle non-default locale path without leading slash",
     () => {}
   );
+});
+
+describe("buildPrefix", () => {
+  describe('for root slash "/" as Base Url', () => {
+    it('should return "/" for default locale "es"', () => {
+      const prefix = buildPrefix("es" as LocaleKey, "es" as LocaleKey, "/");
+      expect(prefix).toBe("/");
+    });
+
+    it('should return "/ja" for non-default locale "ja"', () => {
+      const prefix = buildPrefix("ja" as LocaleKey, "es" as LocaleKey, "/");
+      expect(prefix).toBe("/ja");
+    });
+  });
+
+  describe('for "/astro-paper-i18n" as Base Url', () => {
+    it('should return "/astro-paper-i18n" for default locale "es"', () => {
+      const prefix = buildPrefix(
+        "es" as LocaleKey,
+        "es" as LocaleKey,
+        "/astro-paper-i18n"
+      );
+      expect(prefix).toBe("/astro-paper-i18n");
+    });
+
+    it('should return "/astro-paper-i18n/ja" for non-default locale "ja"', () => {
+      const prefix = buildPrefix(
+        "ja" as LocaleKey,
+        "es" as LocaleKey,
+        "/astro-paper-i18n"
+      );
+      expect(prefix).toBe("/astro-paper-i18n/ja");
+    });
+  });
 });
