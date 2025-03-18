@@ -8,7 +8,6 @@ import {
   getLocaleInfo,
   getRelativeLocalePath,
   isLocaleKey,
-  isPathLocalized,
   stripBaseAndLocale,
   translateFor,
 } from "@i18n/utils";
@@ -55,24 +54,6 @@ describe("getLocaleInfo", () => {
 
   it("should throw if no locale is provided", () => {
     expect(() => getLocaleInfo(undefined)).toThrowError(UnsupportedLocale);
-  });
-});
-
-describe("isPathLocalized", () => {
-  it("should return true if the path contains a supported locale", () => {
-    expect(isPathLocalized("/ar/posts/1")).toBe(true);
-  });
-
-  it("should return true if the path contains a supported locale and doesn't start with /", () => {
-    expect(isPathLocalized("ar/posts/1")).toBe(true);
-  });
-
-  it("should return false if the path does not contain a supported locale", () => {
-    expect(isPathLocalized("/posts/1")).toBe(false);
-  });
-
-  it("should return false if the path does not contain a supported locale and doesn't start with /", () => {
-    expect(isPathLocalized("posts/1")).toBe(false);
   });
 });
 

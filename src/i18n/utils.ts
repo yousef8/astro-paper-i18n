@@ -54,12 +54,6 @@ export function getLocaleInfo(
   return localeToProfile[locale];
 }
 
-export function isPathLocalized(path: string): boolean {
-  // TODO: refactor extracting the locale part from path
-  const possibleLocalKeyInPath = path.replace(/^\/+/, "").split("/")[0];
-  return isLocaleKey(possibleLocalKeyInPath);
-}
-
 export function getRelativeLocalePath(
   locale: string | undefined,
   path: string = "/",
