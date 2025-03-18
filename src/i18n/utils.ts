@@ -57,9 +57,14 @@ export function getLocaleInfo(
 export function getRelativeLocalePath(
   locale: string | undefined,
   path: string = "/",
-  options?: GetLocaleOptions
+  {
+    _isLocaleKey = isLocaleKey,
+    ...options
+  }: GetLocaleOptions & {
+    _isLocaleKey?: (locale?: string) => locale is LocaleKey;
+  } = {}
 ): string {
-  if (!isLocaleKey(locale)) throw new UnsupportedLocale(locale);
+  if (!_isLocaleKey(locale)) throw new UnsupportedLocale(locale);
 
   const localizedPath = getRelativeLocaleUrl(locale, path, options);
 

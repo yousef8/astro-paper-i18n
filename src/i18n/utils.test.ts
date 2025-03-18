@@ -58,6 +58,7 @@ describe("getLocaleInfo", () => {
 });
 
 describe("getRelativeLocalePath", () => {
+  // TODO: isolate the tests for the function by stubing default locales and supported locales
   it("should return the correct localized path for a default locale", () => {
     const path = getRelativeLocalePath("en", "/posts/1");
     expect(path).toBe("/posts/1");
@@ -69,6 +70,7 @@ describe("getRelativeLocalePath", () => {
   });
 
   it("should handle trailing slashes correctly", () => {
+    // TODO: split into 2 tests
     const pathWithSlash = getRelativeLocalePath("ar", "/posts/1/");
     expect(pathWithSlash).toBe("/ar/posts/1/");
 
