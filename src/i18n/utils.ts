@@ -9,8 +9,6 @@ import {
 } from "@i18n/config";
 import type { I18nKeys, I18nStrings } from "@i18n/types";
 
-// TODO: Convert all to pure functions
-
 export function translateFor(
   locale: string | undefined,
   _isLocaleKey: (
@@ -75,10 +73,15 @@ export function getRelativeLocalePath(
   return localizedPath.replace(/\/+$/, "");
 }
 
-export function stripBaseAndLocale(locale: string | undefined, path: string) {
-  if (!isLocaleKey(locale)) throw new UnsupportedLocale(locale);
+export function stripBaseAndLocale(
+  locale: string | undefined,
+  path: string,
+  _isLocaleKey: (locale?: string) => locale is LocaleKey = isLocaleKey,
+  _buildPrefix: (locale: LocaleKey) => string = buildPrefix
+): string {
+  if (!_isLocaleKey(locale)) throw new UnsupportedLocale(locale);
 
-  const prefix = buildPrefix(locale);
+  const prefix = _buildPrefix(locale);
 
   // TODO: for default locale it shouldn't remove leading slash
   // TODO: it should handle if path doesn't have a leading slash
