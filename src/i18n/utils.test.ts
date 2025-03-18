@@ -9,7 +9,6 @@ import {
   getRelativeLocalePath,
   isLocaleKey,
   isPathLocalized,
-  parseLocaleFromUrlOrPath,
   stripBaseAndLocale,
   translateFor,
 } from "@i18n/utils";
@@ -137,31 +136,4 @@ describe("stripBaseAndLocale", () => {
     "should handle non-default locale path without leading slash",
     () => {}
   );
-});
-
-describe("parseLocaleFromUrlOrPath", () => {
-  it("should extract the locale from a URL", () => {
-    const locale = parseLocaleFromUrlOrPath("https://example.com/ar/posts/1");
-    expect(locale).toBe("ar");
-  });
-
-  it("should extract non-default locale from a path", () => {
-    const locale = parseLocaleFromUrlOrPath("/ar/posts/2");
-    expect(locale).toBe("ar");
-  });
-
-  it("should extract non-default locale from a path without leading slash", () => {
-    const locale = parseLocaleFromUrlOrPath("ar/posts/2");
-    expect(locale).toBe("ar");
-  });
-
-  it("should return undefined if the path does not contain a valid locale (aka default locale)", () => {
-    const locale = parseLocaleFromUrlOrPath("/posts/1");
-    expect(locale).toBeUndefined();
-  });
-
-  it("should return undefined if  path without leading slash does not contain a valid locale (aka default locale)", () => {
-    const locale = parseLocaleFromUrlOrPath("/posts/1");
-    expect(locale).toBeUndefined();
-  });
 });
