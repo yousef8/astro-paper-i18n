@@ -13,7 +13,7 @@ import {
   stripBaseAndLocale,
   translateFor,
 } from "@i18n/utils";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 describe("translateFor", () => {
   it("should return a function that translates a key for the given locale", () => {
@@ -98,29 +98,168 @@ describe("getRelativeLocalePath", () => {
 });
 
 describe("stripBaseAndLocale", () => {
-  it("should handle path with default locale & leading slash", () => {
-    // TODO: for default locale it shouldn't remove leading slash
-    const path = stripBaseAndLocale("en", `${import.meta.env.BASE_URL}posts/1`);
-    expect(path).toBe("posts/1");
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
-  it.todo(
-    "should handle path with default locale without leading slash",
-    () => {}
-  );
+  it("should throw error for unsupported locale", () => {
+    const _isLocaleKey = (locale?: string): locale is LocaleKey => false;
+    expect(() =>
+      stripBaseAndLocale("en", "/posts/1", _isLocaleKey)
+    ).toThrowError(UnsupportedLocale);
+  });
 
-  it("should non-default locale path with leading slash", () => {
-    const path = stripBaseAndLocale(
-      "ar",
-      `${import.meta.env.BASE_URL}ar/posts/1`
+  it("should throw error for undefined locale", () => {
+    expect(() => stripBaseAndLocale(undefined, "/posts/1")).toThrowError(
+      UnsupportedLocale
     );
-    expect(path).toBe("/posts/1");
   });
 
-  it.todo(
-    "should handle non-default locale path without leading slash",
-    () => {}
-  );
+  describe("for '/' as Base URL", () => {
+    describe("for default locale", () => {
+      it("return '/' for path '/'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "es",
+          "/",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
+        );
+        expect(strippedPath).toBe("/");
+      });
+
+      it("return '/posts/1'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "es",
+          "/posts/1",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
+        );
+
+        expect(strippedPath).toBe("/posts/1");
+      });
+
+      it("appends trailing slash if path passed have it", () => {
+        const strippedPath = stripBaseAndLocale(
+          "es",
+          "/posts/1/",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
+        );
+
+        expect(strippedPath).toBe("/posts/1/");
+      });
+    });
+
+    describe("for non-default locale", () => {
+      it("return '/' for path '/ja'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "ja",
+          "/ja",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
+        );
+        expect(strippedPath).toBe("/");
+      });
+
+      it("return '/posts/1'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "ja",
+          "/ja/posts/1",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
+        );
+
+        expect(strippedPath).toBe("/posts/1");
+      });
+
+      it("appends trailing slash if path passed have it", () => {
+        const strippedPath = stripBaseAndLocale(
+          "ja",
+          "/ja/posts/1/",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
+        );
+
+        expect(strippedPath).toBe("/posts/1/");
+      });
+    });
+  });
+
+  describe("for '/astro' as Base URL", () => {
+    describe("for default locale", () => {
+      it("return '/' for path '/astro'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "es",
+          "/astro",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) =>
+            buildPrefix(locale, "es" as LocaleKey, "/astro")
+        );
+        expect(strippedPath).toBe("/");
+      });
+
+      it("return '/posts/1'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "es",
+          "/astro/posts/1",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) =>
+            buildPrefix(locale, "es" as LocaleKey, "/astro")
+        );
+
+        expect(strippedPath).toBe("/posts/1");
+      });
+
+      it("appends trailing slash if path passed have it", () => {
+        const strippedPath = stripBaseAndLocale(
+          "es",
+          "/astro/posts/1/",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) =>
+            buildPrefix(locale, "es" as LocaleKey, "/astro")
+        );
+
+        expect(strippedPath).toBe("/posts/1/");
+      });
+    });
+
+    describe("for non-default locale", () => {
+      it("return '/' for path '/ja'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "ja",
+          "/astro/ja",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) =>
+            buildPrefix(locale, "es" as LocaleKey, "/astro")
+        );
+        expect(strippedPath).toBe("/");
+      });
+
+      it("return '/posts/1'", () => {
+        const strippedPath = stripBaseAndLocale(
+          "ja",
+          "/astro/ja/posts/1",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) =>
+            buildPrefix(locale, "es" as LocaleKey, "/astro")
+        );
+
+        expect(strippedPath).toBe("/posts/1");
+      });
+
+      it("appends trailing slash if path passed have it", () => {
+        const strippedPath = stripBaseAndLocale(
+          "ja",
+          "/astro/ja/posts/1/",
+          (locale?: string): locale is LocaleKey => true,
+          (locale: LocaleKey) =>
+            buildPrefix(locale, "es" as LocaleKey, "/astro")
+        );
+
+        expect(strippedPath).toBe("/posts/1/");
+      });
+    });
+  });
 });
 
 describe("buildPrefix", () => {

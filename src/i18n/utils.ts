@@ -83,9 +83,7 @@ export function stripBaseAndLocale(
 
   const prefix = _buildPrefix(locale);
 
-  // TODO: for default locale it shouldn't remove leading slash
-  // TODO: it should handle if path doesn't have a leading slash
-  return path.slice(prefix.length);
+  return new URL(path.slice(prefix.length), "http://foo.com").pathname;
 }
 
 export function buildPrefix(
