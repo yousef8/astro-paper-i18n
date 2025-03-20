@@ -47,13 +47,23 @@ describe("translateFor", () => {
 
 describe("isLocaleKey", () => {
   it("should return true for supported locales", () => {
-    SUPPORTED_LOCALES.forEach(locale => {
-      expect(isLocaleKey(locale)).toBe(true);
+    const supportedLocales = ["es", "ja"];
+
+    supportedLocales.forEach(locale => {
+      expect(isLocaleKey(locale, supportedLocales as LocaleKey[])).toBe(true);
     });
   });
 
   it("should return false for unsupported locales", () => {
-    expect(isLocaleKey("unsupported")).toBe(false);
+    const supportedLocales = ["es", "ja"];
+    expect(isLocaleKey("unsupported", supportedLocales as LocaleKey[])).toBe(
+      false
+    );
+  });
+
+  it("should return false for undefined", () => {
+    const supportedLocales = ["es", "ja"];
+    expect(isLocaleKey(undefined, supportedLocales as LocaleKey[])).toBe(false);
   });
 });
 
