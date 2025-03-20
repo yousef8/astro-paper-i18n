@@ -38,9 +38,12 @@ function getLocaleMsgs(
   return getLocaleConfig(locale).messages;
 }
 
-export function isLocaleKey(locale: string | undefined): locale is LocaleKey {
+export function isLocaleKey(
+  locale: string | undefined,
+  supportedLocales: LocaleKey[] = SUPPORTED_LOCALES
+): locale is LocaleKey {
   if (typeof locale !== "string") return false;
-  return SUPPORTED_LOCALES.includes(locale as LocaleKey);
+  return supportedLocales.includes(locale as LocaleKey);
 }
 
 export function getLocaleInfo(
