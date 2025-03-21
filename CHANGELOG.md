@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/yousef8/astro-paper-i18n/compare/v0.3.0...v0.4.0) (2025-03-21)
+
+
+### Features
+
+* restructure pages folder for dynamic locale-based path generation ([#19](https://github.com/yousef8/astro-paper-i18n/issues/19)) ([2bcd3f4](https://github.com/yousef8/astro-paper-i18n/commit/2bcd3f4eee1f8c7c2c56aeff3a0dbd3eeebf9fc1))
+
 ## [0.3.0](https://github.com/yousef8/astro-paper-i18n/compare/v0.2.0...v0.3.0) (2025-03-08)
 
 ### Sync With Upstream
