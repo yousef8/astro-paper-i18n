@@ -8,6 +8,7 @@ import { UnsupportedLocale } from "@i18n/errors";
 import {
   buildPrefix,
   getLocaleInfo,
+  getLocaleMsgs,
   getRelativeLocalePath,
   isLocaleKey,
   stripBaseAndLocale,
@@ -61,6 +62,20 @@ describe("translateFor", () => {
     const translate = translateFor("es");
     const translation = translate("pageWithNo", { no: "1" });
     expect(translation).toBe("Página 1");
+  });
+});
+
+describe("getLocaleMsgs", () => {
+  it("should return messages for a supported locale", () => {
+    const locale = "es" as LocaleKey;
+    expect(getLocaleMsgs(locale, getLocaleInfo)).toEqual(
+      localeToProfile[locale].messages
+    );
+  });
+
+  it("should throw an error for an unsupported locale", () => {
+    const locale = "unsupported" as LocaleKey;
+    expect(() => getLocaleMsgs(locale)).toThrow(UnsupportedLocale);
   });
 });
 

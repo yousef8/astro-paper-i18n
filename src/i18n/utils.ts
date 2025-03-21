@@ -31,7 +31,7 @@ export function translateFor(
   };
 }
 
-function getLocaleMsgs(
+export function getLocaleMsgs(
   locale: LocaleKey,
   getLocaleConfig: (locale: LocaleKey) => LocaleProfile = getLocaleInfo
 ): I18nStrings {
