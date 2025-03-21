@@ -1,4 +1,5 @@
 import {
+  DEFAULT_LOCALE,
   localeToProfile,
   SUPPORTED_LOCALES,
   type LocaleKey,
@@ -12,8 +13,36 @@ import {
   stripBaseAndLocale,
   translateFor,
 } from "@i18n/utils";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import type { I18nStrings } from "./types";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("@i18n/config", async importOriginal => {
+  const original = await importOriginal<typeof import("@i18n/config")>();
+  return {
+    ...original,
+    localeToProfile: {
+      es: {
+        name: "Español",
+        langTag: "es-ES",
+        googleFontName: "Roboto",
+        messages: {
+          home: "casa",
+          pageWithNo: "Página {no}",
+        },
+        direction: "ltr",
+        default: true,
+      },
+      ja: {
+        name: "日本語",
+        langTag: "ja-JP",
+        googleFontName: "Noto Sans JP",
+        messages: {},
+        direction: "ltr",
+      },
+    },
+    SUPPORTED_LOCALES: ["es", "ja"],
+    DEFAULT_LOCALE: "es",
+  };
+});
 
 describe("translateFor", () => {
   it("should throw error if no locale is provided", () => {
@@ -21,24 +50,12 @@ describe("translateFor", () => {
   });
 
   it("should return a function that translates a key for the given locale", () => {
-    const isLocalKey = (locale?: string): locale is LocaleKey => true;
-    const getLocaleMsgs = (locale: LocaleKey) => {
-      const msgs: I18nStrings = { home: "casa" } as I18nStrings;
-      if (locale) return msgs;
-      return msgs;
-    };
-    const translate = translateFor("es", isLocalKey, getLocaleMsgs);
+    const translate = translateFor("es");
     expect(translate("home")).toBe("casa");
   });
 
   it("should substitute placeholders in the translation", () => {
-    const isLocalKey = (locale?: string): locale is LocaleKey => true;
-    const getLocaleMsgs = (locale: LocaleKey) => {
-      const msgs: I18nStrings = { pageWithNo: "Página {no}" } as I18nStrings;
-      if (locale) return msgs;
-      return msgs;
-    };
-    const translate = translateFor("es", isLocalKey, getLocaleMsgs);
+    const translate = translateFor("es");
     const translation = translate("pageWithNo", { no: "1" });
     expect(translation).toBe("Página 1");
   });
@@ -46,23 +63,17 @@ describe("translateFor", () => {
 
 describe("isLocaleKey", () => {
   it("should return true for supported locales", () => {
-    const supportedLocales = ["es", "ja"];
-
-    supportedLocales.forEach(locale => {
-      expect(isLocaleKey(locale, supportedLocales as LocaleKey[])).toBe(true);
+    SUPPORTED_LOCALES.forEach(locale => {
+      expect(isLocaleKey(locale)).toBe(true);
     });
   });
 
   it("should return false for unsupported locales", () => {
-    const supportedLocales = ["es", "ja"];
-    expect(isLocaleKey("unsupported", supportedLocales as LocaleKey[])).toBe(
-      false
-    );
+    expect(isLocaleKey("unsupported")).toBe(false);
   });
 
   it("should return false for undefined", () => {
-    const supportedLocales = ["es", "ja"];
-    expect(isLocaleKey(undefined, supportedLocales as LocaleKey[])).toBe(false);
+    expect(isLocaleKey(undefined)).toBe(false);
   });
 });
 
@@ -84,32 +95,21 @@ describe("getLocaleInfo", () => {
 describe("getRelativeLocalePath", () => {
   // TODO: isolate the tests for the function by stubing default locales and supported locales
   it("should return the correct localized path for a default locale", () => {
-    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
-    const path = getRelativeLocalePath("es", "/posts/1", {
-      _isLocaleKey: isLocaleKey,
-    });
+    const path = getRelativeLocalePath(DEFAULT_LOCALE, "/posts/1");
     expect(path).toBe("/posts/1");
   });
 
   it("should return the correct localized path for a supported locale", () => {
-    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
-    const path = getRelativeLocalePath("ja", "/posts/1", {
-      _isLocaleKey: isLocaleKey,
-    });
+    const path = getRelativeLocalePath("ja", "/posts/1");
     expect(path).toBe("/ja/posts/1");
   });
 
   it("should handle trailing slashes correctly", () => {
     // TODO: split into 2 tests
-    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
-    const pathWithSlash = getRelativeLocalePath("ja", "/posts/1/", {
-      _isLocaleKey: isLocaleKey,
-    });
+    const pathWithSlash = getRelativeLocalePath("ja", "/posts/1/");
     expect(pathWithSlash).toBe("/ja/posts/1/");
 
-    const pathWithoutSlash = getRelativeLocalePath("ja", "/posts/1", {
-      _isLocaleKey: isLocaleKey,
-    });
+    const pathWithoutSlash = getRelativeLocalePath("ja", "/posts/1");
     expect(pathWithoutSlash).toBe("/ja/posts/1");
   });
 
@@ -120,35 +120,24 @@ describe("getRelativeLocalePath", () => {
   it("should not remove trailing slash for root path `/`", () => {
     const isLocaleKey = (locale?: string): locale is LocaleKey => true;
     expect(
-      getRelativeLocalePath("es", "/", { _isLocaleKey: isLocaleKey })
+      getRelativeLocalePath(DEFAULT_LOCALE, "/", { _isLocaleKey: isLocaleKey })
     ).toBe("/");
   });
 
   it("should return `/` if no path supplied for default locale", () => {
-    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
-    expect(
-      getRelativeLocalePath("es", undefined, { _isLocaleKey: isLocaleKey })
-    ).toBe("/");
+    expect(getRelativeLocalePath(DEFAULT_LOCALE, undefined)).toBe("/");
   });
 
   it("should return `/` if empty path `` supplied for default locale", () => {
-    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
-    expect(getRelativeLocalePath("es", "", { _isLocaleKey: isLocaleKey })).toBe(
-      "/"
-    );
+    expect(getRelativeLocalePath(DEFAULT_LOCALE, "")).toBe("/");
   });
 });
 
 describe("stripBaseAndLocale", () => {
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
-
   it("should throw error for unsupported locale", () => {
-    const _isLocaleKey = (locale?: string): locale is LocaleKey => false;
-    expect(() =>
-      stripBaseAndLocale("en", "/posts/1", _isLocaleKey)
-    ).toThrowError(UnsupportedLocale);
+    expect(() => stripBaseAndLocale("en", "/posts/1")).toThrowError(
+      UnsupportedLocale
+    );
   });
 
   it("should throw error for undefined locale", () => {
@@ -160,107 +149,71 @@ describe("stripBaseAndLocale", () => {
   describe("for '/' as Base URL", () => {
     describe("for default locale", () => {
       it("return '/' for path '/'", () => {
-        const strippedPath = stripBaseAndLocale(
-          "es",
-          "/",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
-        );
+        const strippedPath = stripBaseAndLocale(DEFAULT_LOCALE, "/");
         expect(strippedPath).toBe("/");
       });
 
       it("return '/posts/1'", () => {
-        const strippedPath = stripBaseAndLocale(
-          "es",
-          "/posts/1",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
-        );
-
+        const strippedPath = stripBaseAndLocale(DEFAULT_LOCALE, "/posts/1");
         expect(strippedPath).toBe("/posts/1");
       });
 
       it("appends trailing slash if path passed have it", () => {
-        const strippedPath = stripBaseAndLocale(
-          "es",
-          "/posts/1/",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
-        );
-
+        const strippedPath = stripBaseAndLocale(DEFAULT_LOCALE, "/posts/1/");
         expect(strippedPath).toBe("/posts/1/");
       });
     });
 
     describe("for non-default locale", () => {
       it("return '/' for path '/ja'", () => {
-        const strippedPath = stripBaseAndLocale(
-          "ja",
-          "/ja",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
-        );
+        const strippedPath = stripBaseAndLocale("ja", "/ja");
         expect(strippedPath).toBe("/");
       });
 
       it("return '/posts/1'", () => {
-        const strippedPath = stripBaseAndLocale(
-          "ja",
-          "/ja/posts/1",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
-        );
-
+        const strippedPath = stripBaseAndLocale("ja", "/ja/posts/1");
         expect(strippedPath).toBe("/posts/1");
       });
 
       it("appends trailing slash if path passed have it", () => {
-        const strippedPath = stripBaseAndLocale(
-          "ja",
-          "/ja/posts/1/",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) => buildPrefix(locale, "es" as LocaleKey, "/")
-        );
-
+        const strippedPath = stripBaseAndLocale("ja", "/ja/posts/1/");
         expect(strippedPath).toBe("/posts/1/");
       });
     });
   });
 
   describe("for '/astro' as Base URL", () => {
+    const _buildPrefix = (locale: LocaleKey) =>
+      buildPrefix(locale, DEFAULT_LOCALE, "/astro");
+
     describe("for default locale", () => {
       it("return '/' for path '/astro'", () => {
         const strippedPath = stripBaseAndLocale(
-          "es",
+          DEFAULT_LOCALE,
           "/astro",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) =>
-            buildPrefix(locale, "es" as LocaleKey, "/astro")
+          undefined,
+          _buildPrefix
         );
         expect(strippedPath).toBe("/");
       });
 
       it("return '/posts/1'", () => {
         const strippedPath = stripBaseAndLocale(
-          "es",
+          DEFAULT_LOCALE,
           "/astro/posts/1",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) =>
-            buildPrefix(locale, "es" as LocaleKey, "/astro")
+          undefined,
+          _buildPrefix
         );
-
         expect(strippedPath).toBe("/posts/1");
       });
 
       it("appends trailing slash if path passed have it", () => {
         const strippedPath = stripBaseAndLocale(
-          "es",
+          DEFAULT_LOCALE,
           "/astro/posts/1/",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) =>
-            buildPrefix(locale, "es" as LocaleKey, "/astro")
+          undefined,
+          _buildPrefix
         );
-
         expect(strippedPath).toBe("/posts/1/");
       });
     });
@@ -270,9 +223,8 @@ describe("stripBaseAndLocale", () => {
         const strippedPath = stripBaseAndLocale(
           "ja",
           "/astro/ja",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) =>
-            buildPrefix(locale, "es" as LocaleKey, "/astro")
+          undefined,
+          _buildPrefix
         );
         expect(strippedPath).toBe("/");
       });
@@ -281,11 +233,9 @@ describe("stripBaseAndLocale", () => {
         const strippedPath = stripBaseAndLocale(
           "ja",
           "/astro/ja/posts/1",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) =>
-            buildPrefix(locale, "es" as LocaleKey, "/astro")
+          undefined,
+          _buildPrefix
         );
-
         expect(strippedPath).toBe("/posts/1");
       });
 
@@ -293,11 +243,9 @@ describe("stripBaseAndLocale", () => {
         const strippedPath = stripBaseAndLocale(
           "ja",
           "/astro/ja/posts/1/",
-          (locale?: string): locale is LocaleKey => true,
-          (locale: LocaleKey) =>
-            buildPrefix(locale, "es" as LocaleKey, "/astro")
+          undefined,
+          _buildPrefix
         );
-
         expect(strippedPath).toBe("/posts/1/");
       });
     });
@@ -307,12 +255,12 @@ describe("stripBaseAndLocale", () => {
 describe("buildPrefix", () => {
   describe('for root slash "/" as Base Url', () => {
     it('should return "/" for default locale "es"', () => {
-      const prefix = buildPrefix("es" as LocaleKey, "es" as LocaleKey, "/");
+      const prefix = buildPrefix(DEFAULT_LOCALE, DEFAULT_LOCALE, "/");
       expect(prefix).toBe("/");
     });
 
     it('should return "/ja" for non-default locale "ja"', () => {
-      const prefix = buildPrefix("ja" as LocaleKey, "es" as LocaleKey, "/");
+      const prefix = buildPrefix("ja" as LocaleKey, DEFAULT_LOCALE, "/");
       expect(prefix).toBe("/ja");
     });
   });
@@ -320,8 +268,8 @@ describe("buildPrefix", () => {
   describe('for "/astro-paper-i18n" as Base Url', () => {
     it('should return "/astro-paper-i18n" for default locale "es"', () => {
       const prefix = buildPrefix(
-        "es" as LocaleKey,
-        "es" as LocaleKey,
+        DEFAULT_LOCALE,
+        DEFAULT_LOCALE,
         "/astro-paper-i18n"
       );
       expect(prefix).toBe("/astro-paper-i18n");
@@ -330,7 +278,7 @@ describe("buildPrefix", () => {
     it('should return "/astro-paper-i18n/ja" for non-default locale "ja"', () => {
       const prefix = buildPrefix(
         "ja" as LocaleKey,
-        "es" as LocaleKey,
+        DEFAULT_LOCALE,
         "/astro-paper-i18n"
       );
       expect(prefix).toBe("/astro-paper-i18n/ja");
