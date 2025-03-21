@@ -1,5 +1,4 @@
 import {
-  DEFAULT_LOCALE,
   localeToProfile,
   SUPPORTED_LOCALES,
   type LocaleKey,
@@ -85,22 +84,33 @@ describe("getLocaleInfo", () => {
 describe("getRelativeLocalePath", () => {
   // TODO: isolate the tests for the function by stubing default locales and supported locales
   it("should return the correct localized path for a default locale", () => {
-    const path = getRelativeLocalePath("en", "/posts/1");
+    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
+    const path = getRelativeLocalePath("es", "/posts/1", {
+      _isLocaleKey: isLocaleKey,
+    });
     expect(path).toBe("/posts/1");
   });
 
   it("should return the correct localized path for a supported locale", () => {
-    const path = getRelativeLocalePath("ar", "/posts/1");
-    expect(path).toBe("/ar/posts/1");
+    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
+    const path = getRelativeLocalePath("ja", "/posts/1", {
+      _isLocaleKey: isLocaleKey,
+    });
+    expect(path).toBe("/ja/posts/1");
   });
 
   it("should handle trailing slashes correctly", () => {
     // TODO: split into 2 tests
-    const pathWithSlash = getRelativeLocalePath("ar", "/posts/1/");
-    expect(pathWithSlash).toBe("/ar/posts/1/");
+    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
+    const pathWithSlash = getRelativeLocalePath("ja", "/posts/1/", {
+      _isLocaleKey: isLocaleKey,
+    });
+    expect(pathWithSlash).toBe("/ja/posts/1/");
 
-    const pathWithoutSlash = getRelativeLocalePath("ar", "/posts/1");
-    expect(pathWithoutSlash).toBe("/ar/posts/1");
+    const pathWithoutSlash = getRelativeLocalePath("ja", "/posts/1", {
+      _isLocaleKey: isLocaleKey,
+    });
+    expect(pathWithoutSlash).toBe("/ja/posts/1");
   });
 
   it("should throw an error for an unsupported locale", () => {
@@ -108,15 +118,24 @@ describe("getRelativeLocalePath", () => {
   });
 
   it("should not remove trailing slash for root path `/`", () => {
-    expect(getRelativeLocalePath(DEFAULT_LOCALE, "/")).toBe("/");
+    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
+    expect(
+      getRelativeLocalePath("es", "/", { _isLocaleKey: isLocaleKey })
+    ).toBe("/");
   });
 
   it("should return `/` if no path supplied for default locale", () => {
-    expect(getRelativeLocalePath(DEFAULT_LOCALE)).toBe("/");
+    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
+    expect(
+      getRelativeLocalePath("es", undefined, { _isLocaleKey: isLocaleKey })
+    ).toBe("/");
   });
 
   it("should return `/` if empty path `` supplied for default locale", () => {
-    expect(getRelativeLocalePath(DEFAULT_LOCALE, "")).toBe("/");
+    const isLocaleKey = (locale?: string): locale is LocaleKey => true;
+    expect(getRelativeLocalePath("es", "", { _isLocaleKey: isLocaleKey })).toBe(
+      "/"
+    );
   });
 });
 

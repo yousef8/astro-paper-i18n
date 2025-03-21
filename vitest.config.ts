@@ -9,4 +9,10 @@ export default getViteConfig({
       exclude: ['src/assets', 'src/content', 'src/**/types.ts', 'src/i18n/locales', ...coverageConfigDefaults.exclude]
     }
 	},
+},
+{
+  i18n: {
+    locales: ['es', 'ja'],
+    defaultLocale: 'es',
+  },
 });
