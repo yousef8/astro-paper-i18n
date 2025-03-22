@@ -43,7 +43,7 @@ const unLocalizedPathname = stripBaseAndLocale(
   </button>
   <div
     id="language-picker-items"
-    class="absolute top-full hidden w-auto rounded-md bg-skin-fill shadow-lg"
+    class="bg-skin-fill absolute top-full hidden w-auto rounded-md shadow-lg"
     role="menu"
     aria-orientation="vertical"
   >
@@ -51,7 +51,7 @@ const unLocalizedPathname = stripBaseAndLocale(
       SUPPORTED_LOCALES.map(locale => (
         <a
           href={getRelativeLocalePath(locale, unLocalizedPathname)}
-          class="block px-4 py-2 text-sm hover:bg-skin-card hover:text-skin-accent"
+          class="hover:bg-skin-card hover:text-skin-accent block px-4 py-2 text-sm"
           role="menuitem"
         >
           {getLocaleInfo(locale).name}
