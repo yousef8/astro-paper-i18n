@@ -1,4 +1,4 @@
-import type { LocaleKey } from "@i18n/config";
+import type { LocaleKey } from "@/i18n/config";
 import { getEntry } from "astro:content";
 
 /**

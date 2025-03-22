@@ -1,4 +1,4 @@
-import type { LocaleKey } from "@i18n/config";
+import { DEFAULT_LOCALE, type LocaleKey } from "@/i18n/config";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 type GetPostsOptions = {
@@ -51,11 +51,12 @@ export const getPostsGroupedByLocale = async ({
 export const getPosts = async ({
   draft = true,
   allowedLocales = [],
-}: GetPostsOptions = {}) => {
+}: GetPostsOptions = {}): Promise<CollectionEntry<"blog">[]> => {
   const posts: CollectionEntry<"blog">[] = await getCollection(
     "blog",
-    ({ id, data }) => {
-      const locale = id.split("/")[0];
+    ({ filePath, data }) => {
+      // TODO: helper function to get locale from post
+      const locale = filePath?.split("/").at(-2) || DEFAULT_LOCALE; // for collections with file loaders this always exist
 
       return (
         (draft || !data.draft) &&
@@ -67,10 +68,8 @@ export const getPosts = async ({
   return posts.map(post => {
     const postCopy = { ...post };
 
-    const slugParts = post.slug.split("/");
-    postCopy.slug = (
-      slugParts.length ? slugParts[slugParts.length - 1] : post.slug
-    ) as typeof post.slug;
+    const slugParts = post.id.split("/");
+    postCopy.id = slugParts.length ? slugParts[slugParts.length - 1] : post.id;
 
     return postCopy;
   });
@@ -90,7 +89,7 @@ export const groupPostsByLocale = (
 ) => {
   const postsByLocale = posts.reduce(
     (acc, post) => {
-      const locale = post.id.split("/")[0];
+      const locale = post.filePath?.split("/").at(-2) || DEFAULT_LOCALE;
       return {
         ...acc,
         [locale]: [...(acc[locale] || []), post],

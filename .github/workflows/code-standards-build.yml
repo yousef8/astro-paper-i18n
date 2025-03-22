@@ -13,7 +13,6 @@ on:
       - "src/**"
       - "public/**"
       - "astro.config.ts"
-      - "tailwind.config.cjs"
       - "tsconfig.json"
       - "eslint.config.mjs"
       - "remark-collapse.d.ts"
@@ -22,7 +21,7 @@ jobs:
   code_quality:
     strategy:
       matrix:
-        node-versions: [18.x]
+        node-versions: [20]
     uses: ./.github/workflows/code-standards-checks.yml
     with:
       node-version: ${{ matrix.node-versions }}
@@ -31,4 +30,4 @@ jobs:
   unit-tests:
     uses: ./.github/workflows/tests.yml
     with:
-      node-version: "18.x"
+      node-version: "20"

@@ -1,10 +1,10 @@
 import rss from "@astrojs/rss";
-import getSortedPosts from "@utils/getSortedPosts";
-import { SITE } from "@config";
-import { getRelativeLocalePath, translateFor } from "@i18n/utils";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { SITE } from "@/config";
+import { getRelativeLocalePath, translateFor } from "@/i18n/utils";
 import type { APIContext, InferGetStaticParamsType } from "astro";
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@i18n/config";
-import { getPostsGroupedByLocale } from "@utils/posts";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@/i18n/config";
+import { getPostsGroupedByLocale } from "@/utils/posts";
 
 export async function getStaticPaths() {
   return SUPPORTED_LOCALES.map(locale => ({
@@ -29,8 +29,8 @@ export async function GET(context: APIContext) {
     title: t("site.title"),
     description: t("site.desc"),
     site: new URL(getRelativeLocalePath(locale), SITE.website).href,
-    items: sortedPosts.map(({ data, slug }) => ({
-      link: getRelativeLocalePath(locale, `/posts/${slug}/`),
+    items: sortedPosts.map(({ data, id }) => ({
+      link: getRelativeLocalePath(locale, `/posts/${id}/`),
       title: data.title,
       description: data.description,
       pubDate: new Date(data.modDatetime ?? data.pubDatetime),

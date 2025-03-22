@@ -1,10 +1,10 @@
 import type { APIRoute, InferGetStaticParamsType } from "astro";
 import { type CollectionEntry } from "astro:content";
-import { generateOgImageForPost } from "@utils/generateOgImages";
-import { slugifyStr } from "@utils/slugify";
-import { getLocaleInfo } from "@i18n/utils";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
-import { getPostsGroupedByLocale } from "@utils/posts";
+import { generateOgImageForPost } from "@/utils/generateOgImages";
+import { slugifyStr } from "@/utils/slugify";
+import { getLocaleInfo } from "@/i18n/utils";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { getPostsGroupedByLocale } from "@/utils/posts";
 
 export async function getStaticPaths() {
   const postsByLocale = await getPostsGroupedByLocale({

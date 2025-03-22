@@ -1,10 +1,16 @@
 ---
-import { SITE } from "@config";
-import Posts from "@layouts/Posts.astro";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Pagination from "@/components/Pagination.astro";
+import { SITE } from "@/config";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { translateFor } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { getPostsGroupedByLocale } from "@/utils/posts";
 import type { GetStaticPaths } from "astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import { getPostsGroupedByLocale } from "@utils/posts";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const postsByLocale = await getPostsGroupedByLocale({
@@ -25,6 +31,23 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+
+const t = translateFor(Astro.currentLocale);
 ---
 
-<Posts {page} />
+<Layout title={`${t("posts")} | ${t("site.title")}`}>
+  <Header />
+  <Main pageTitle={t("posts")} pageDesc={t("posts.desc")}>
+    <ul>
+      {
+        page.data.map(({ data, id }) => (
+          <Card href={`/posts/${id}`} frontmatter={data} />
+        ))
+      }
+    </ul>
+  </Main>
+
+  <Pagination {page} />
+
+  <Footer noMarginTop={page.lastPage > 1} />
+</Layout>

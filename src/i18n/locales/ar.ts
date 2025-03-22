@@ -1,4 +1,4 @@
-import type { I18nStrings } from "@i18n/types";
+import type { I18nStrings } from "@/i18n/types";
 
 const baseStrings = {
   "site.title": "استرو بيبر مترجم",

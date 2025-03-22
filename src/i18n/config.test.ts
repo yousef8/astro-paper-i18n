@@ -4,7 +4,7 @@ import {
   DEFAULT_LOCALE,
   LOCALES_TO_LANG,
   type LocaleProfile,
-} from "@i18n/config";
+} from "@/i18n/config";
 import { describe, it, expect } from "vitest";
 
 describe("SUPPORTED_LOCALES", () => {
