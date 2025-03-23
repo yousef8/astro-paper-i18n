@@ -136,7 +136,7 @@ const nextPost =
             )}
             class="flex w-full gap-1 hover:opacity-75"
           >
-            <IconChevronLeft class="inline-block flex-none" />
+            <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
             <div>
               <span>{t("navigation.prevPost")}</span>
               <div class="text-sm text-accent/85">{prevPost.title}</div>
@@ -157,7 +157,7 @@ const nextPost =
               <span>{t("navigation.nextPost")}</span>
               <div class="text-sm text-accent/85">{nextPost.title}</div>
             </div>
-            <IconChevronRight class="inline-block flex-none" />
+            <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
           </a>
         )
       }
