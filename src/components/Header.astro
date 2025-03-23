@@ -13,7 +13,9 @@ import LanguagePicker from "./LanguagePicker.astro";
 
 const { pathname } = Astro.url;
 
-const t = translateFor(Astro.currentLocale);
+const currentLocale = Astro.currentLocale;
+
+const t = translateFor(currentLocale);
 
 // Remove trailing slash from current pathname if exists
 const currentPath =
@@ -44,7 +46,7 @@ const isActive = (path: string) => {
       class="relative flex w-full items-start justify-between bg-background p-4 sm:py-6"
     >
       <a
-        href="/"
+        href={getRelativeLocalePath(currentLocale, "/")}
         class="absolute py-1 text-2xl leading-7 font-semibold whitespace-nowrap sm:static"
       >
         {t("site.title")}
