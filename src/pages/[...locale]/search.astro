@@ -155,5 +155,26 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
     .pagefind-ui__result-nested .pagefind-ui__result-link:before {
       font-family: system-ui;
     }
+
+    /* RTL adjustments */
+    :root[dir="rtl"] & {
+      /* Adjust search form icon position */
+      form::before {
+        left: auto;
+        right: 1rem;
+      }
+
+      /* Adjust input padding to account for icon repositioning */
+      .pagefind-ui__search-input {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      /* Move clear button to left side */
+      .pagefind-ui__search-clear {
+        right: auto;
+        left: 1rem;
+      }
+    }
   }
 </style>
