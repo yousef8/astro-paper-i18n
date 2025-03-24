@@ -31,7 +31,7 @@ const unLocalizedPathname = stripBaseAndLocale(
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="icon icon-tabler icons-tabler-outline icon-tabler-language text-base group-hover:text-accent"
+      class="text-base transition-colors group-hover:text-accent"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <path d="M4 5h7"></path>
@@ -43,7 +43,7 @@ const unLocalizedPathname = stripBaseAndLocale(
   </button>
   <div
     id="language-picker-items"
-    class="absolute top-full hidden w-auto rounded-md bg-background shadow-lg"
+    class="absolute top-full hidden w-auto rounded-md border border-border bg-background shadow-md"
     role="menu"
     aria-orientation="vertical"
   >
@@ -51,7 +51,7 @@ const unLocalizedPathname = stripBaseAndLocale(
       SUPPORTED_LOCALES.map(locale => (
         <a
           href={getRelativeLocalePath(locale, unLocalizedPathname)}
-          class="hover:bg-skin-card hover:text-skin-accent block px-4 py-2 text-sm"
+          class="block px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted hover:text-accent"
           role="menuitem"
         >
           {getLocaleInfo(locale).name}
@@ -62,11 +62,18 @@ const unLocalizedPathname = stripBaseAndLocale(
 </div>
 
 <script>
-  function toggleLanguagePicker() {
+  function setupLanguagePicker() {
     const langBtn = document.querySelector("#language-picker-btn");
     const langItems = document.querySelector("#language-picker-items");
 
-    langBtn?.addEventListener("click", e => {
+    // Remove existing event listeners
+    const newLangBtn = langBtn?.cloneNode(true);
+    if (langBtn && newLangBtn) {
+      langBtn.parentNode?.replaceChild(newLangBtn, langBtn);
+    }
+
+    // Add new event listeners
+    newLangBtn?.addEventListener("click", e => {
       e.stopPropagation();
       langItems?.classList.toggle("hidden");
     });
@@ -77,7 +84,7 @@ const unLocalizedPathname = stripBaseAndLocale(
     });
   }
 
-  toggleLanguagePicker();
-  // Add this to the existing astro:after-swap listener
-  document.addEventListener("astro:after-swap", toggleLanguagePicker);
+  setupLanguagePicker();
+
+  document.addEventListener("astro:after-swap", setupLanguagePicker);
 </script>
