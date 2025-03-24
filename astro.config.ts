@@ -13,7 +13,6 @@ import {
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  base: SITE.base,
   i18n: {
     locales: SUPPORTED_LOCALES,
     defaultLocale: DEFAULT_LOCALE,

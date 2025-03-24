@@ -8,11 +8,10 @@ import { getLocaleInfo, translateFor } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
 import Main from "@/layouts/Main.astro";
 import getPostsByGroupCondition from "@/utils/getPostsByGroupCondition";
-import getRelativePath from "@/utils/getRelativePath";
 import { getPostsGroupedByLocale } from "@/utils/posts";
 
 const redirectTo404 = () => {
-  return Astro.redirect(getRelativePath("/404"));
+  return Astro.redirect("/404");
 };
 
 // Redirect to 404 page if `showArchives` config is false
