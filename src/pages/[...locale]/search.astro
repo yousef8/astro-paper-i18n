@@ -27,13 +27,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 <Layout title={`${t("search")} | ${t("site.title")}`}>
   <Header />
   <Main pageTitle={t("search")} pageDesc={`${t("search.desc")} ...`}>
-    <div
-      id="pagefind-search"
-      transition:persist
-      data-backurl={backUrl}
-      data-site-base={import.meta.env.BASE_URL}
-    >
-    </div>
+    <div id="pagefind-search" transition:persist data-backurl={backUrl}></div>
   </Main>
   <Footer />
 </Layout>
@@ -63,17 +57,11 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
            `;
       }
 
-      const siteBase = (pageFindSearch?.dataset?.siteBase || "/").replace(
-        /\/+$/,
-        ""
-      );
-
       // Init pagefind ui
       const search = new PagefindUI({
         element: "#pagefind-search",
         showSubResults: true,
         showImages: false,
-        bundlePath: siteBase + "/pagefind/",
         processTerm: function (term: string) {
           params.set("q", term); // Update the `q` parameter in the URL
           history.replaceState(history.state, "", "?" + params.toString()); // Push the new URL without reloading
