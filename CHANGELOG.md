@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.0](https://github.com/yousef8/astro-paper-i18n/compare/v0.4.0...v1.0.0) (2025-03-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove check phase from build script
+* drop setting site base url support - too much overhead - ([#8](https://github.com/yousef8/astro-paper-i18n/issues/8))
+* sync with AstroPaper v5.0.0 ([#6](https://github.com/yousef8/astro-paper-i18n/issues/6))
+
+### Features
+
+* drop setting site base url support - too much overhead - ([#8](https://github.com/yousef8/astro-paper-i18n/issues/8)) ([e683fc0](https://github.com/yousef8/astro-paper-i18n/commit/e683fc064ebe5a559881c85d3b878e4da179c3ce))
+* localize copy string for code snippets ([30a0b5f](https://github.com/yousef8/astro-paper-i18n/commit/30a0b5f9d0ae74fc20c1e0d9c4e5130e23113ad9))
+* remove check phase from build script ([4670e02](https://github.com/yousef8/astro-paper-i18n/commit/4670e026b8fe1ac87731e1e906e7e59b6edf0fb1))
+* sync with AstroPaper v5.0.0 ([#6](https://github.com/yousef8/astro-paper-i18n/issues/6)) ([a00b8e2](https://github.com/yousef8/astro-paper-i18n/commit/a00b8e2bf0a13a530816651ea220861279b48235))
+* update language picker styling ([00c8be3](https://github.com/yousef8/astro-paper-i18n/commit/00c8be37be302dbcbfe314c837b232fe627ab3bc))
+
 ## [0.4.0](https://github.com/yousef8/astro-paper-i18n/compare/v0.3.0...v0.4.0) (2025-03-21)
 
 
