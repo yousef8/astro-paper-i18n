@@ -39,6 +39,7 @@ jobs:
         uses: withastro/action@v3
         with:
           node-version: "20"
+          package-manager: pnpm@10.6.5
 
   deploy:
     needs: build
