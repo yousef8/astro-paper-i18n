@@ -17,6 +17,13 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage"
   },
+  "volta": {
+    "node": "20.19.0",
+    "pnpm": "10.6.5"
+  },
+  "engines": {
+    "node": "20.19.0"
+  },
   "overrides": {
     "vite": "6.2.2"
   },
