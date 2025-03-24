@@ -81,6 +81,8 @@ const nextPost =
       { "mt-8": !SITE.showBackButton },
     ]}
     data-pagefind-body
+    data-copy-string={t("copy")}
+    data-copied-string={t("copied")}
   >
     <h1
       transition:name={slugifyStr(title)}
@@ -240,7 +242,9 @@ const nextPost =
   /** Attaches copy buttons to code blocks in the document,
    * allowing users to copy code easily. */
   function attachCopyButtons() {
-    const copyButtonLabel = "Copy";
+    const mainContent = document.querySelector("#main-content");
+    const copyButtonLabel = mainContent?.dataset?.copyString ?? "copy";
+
     const codeBlocks = Array.from(document.querySelectorAll("pre"));
 
     for (const codeBlock of codeBlocks) {
@@ -270,7 +274,7 @@ const nextPost =
       await navigator.clipboard.writeText(text ?? "");
 
       // visual feedback that task is completed
-      button.innerText = "Copied";
+      button.innerText = mainContent?.dataset?.copiedString ?? "Copied";
 
       setTimeout(() => {
         button.innerText = copyButtonLabel;

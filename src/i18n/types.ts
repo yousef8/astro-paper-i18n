@@ -1,6 +1,8 @@
 export interface I18nStrings {
   "site.title": string;
   "site.desc": string;
+  copy: string;
+  copied: string;
   by: string;
   about: string;
   socialLinks: string;

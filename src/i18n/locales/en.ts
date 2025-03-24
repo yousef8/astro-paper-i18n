@@ -7,6 +7,8 @@ const baseStrings = {
 
 const ENLocale: I18nStrings = {
   ...baseStrings,
+  copy: "copy",
+  copied: "copied",
   by: "by",
   about: "About",
   socialLinks: "Social Links",

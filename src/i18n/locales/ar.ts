@@ -7,6 +7,8 @@ const baseStrings = {
 
 const ARLocale: I18nStrings = {
   ...baseStrings,
+  copy: "نسخ",
+  copied: "تم النسخ",
   by: "بواسطة",
   about: "عنى",
   socialLinks: "تابعنى على",
