@@ -1,4 +1,4 @@
-import { UnsupportedLocale } from "@i18n/errors";
+import { UnsupportedLocale } from "@/i18n/errors";
 import { type GetLocaleOptions, getRelativeLocaleUrl } from "astro:i18n";
 import {
   type LocaleKey,
@@ -6,8 +6,8 @@ import {
   DEFAULT_LOCALE,
   localeToProfile,
   SUPPORTED_LOCALES,
-} from "@i18n/config";
-import type { I18nKeys, I18nStrings } from "@i18n/types";
+} from "@/i18n/config";
+import type { I18nKeys, I18nStrings } from "@/i18n/types";
 
 export function translateFor(
   locale: string | undefined,

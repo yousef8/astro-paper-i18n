@@ -1,17 +1,20 @@
 ---
+import IconRss from "@/assets/icons/IconRss.svg";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Hr from "@/components/Hr.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import Socials from "@/components/Socials.astro";
+import { SITE } from "@/config";
+import { SOCIALS } from "@/constants";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { getRelativeLocalePath, translateFor } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { getPostsByLocale } from "@/utils/posts";
 import type { GetStaticPaths } from "astro";
-import { SITE, SOCIALS } from "@config";
-import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import LinkButton from "@components/LinkButton.astro";
-import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
-import Socials from "@components/Socials.astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import { translateFor, getRelativeLocalePath } from "@i18n/utils";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
-import { getPostsByLocale } from "@utils/posts";
 
 export const getStaticPaths = (async () =>
   SUPPORTED_LOCALES.map(locale => ({
@@ -26,29 +29,31 @@ const t = translateFor(Astro.currentLocale);
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
-
-const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
 <Layout>
   <Header />
-  <main id="main-content">
-    <section id="hero">
-      <h1>Mingalaba</h1>
+  <main
+    id="main-content"
+    data-layout="index"
+    data-backurl={getRelativeLocalePath(locale, "/")}
+  >
+    <section id="hero" class="pt-8 pb-6">
+      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
+        Mingalaba
+      </h1>
       <a
         target="_blank"
         href={getRelativeLocalePath(Astro.currentLocale, "/rss.xml")}
-        class="rss-link"
+        class="inline-block"
         aria-label={t("a11y.rssFeed")}
         title={t("rssFeed")}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon rtl:-rotate-90"
-          ><path
-            d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"
-          ></path><path
-            d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"
-          ></path><circle cx="6" cy="18" r="2"></circle>
-        </svg>
+        <IconRss
+          width={20}
+          height={20}
+          class="scale-125 stroke-accent stroke-3"
+        />
         <span class="sr-only">{t("rssFeed")}</span>
       </a>
 
@@ -58,10 +63,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         out of the box. Light and dark mode are supported by default. Moreover,
         additional color schemes can also be configured.
       </p>
-      <p>
+      <p class="mt-2">
         Read the blog posts or check
         <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+          class="underline decoration-dashed underline-offset-4 hover:text-accent"
           href="https://github.com/satnaing/astro-paper#readme"
         >
           README
@@ -69,9 +74,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </p>
       {
         // only display if at least one social link is enabled
-        socialCount > 0 && (
-          <div class="social-wrapper">
-            <div class="social-links">{t("socialLinks")}:</div>
+        SOCIALS.length > 0 && (
+          <div class="mt-4 flex flex-col sm:flex-row sm:items-center">
+            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
+              {t("socialLinks")}:
+            </div>
             <Socials />
           </div>
         )
@@ -83,15 +90,16 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     {
       featuredPosts.length > 0 && (
         <>
-          <section id="featured">
-            <h2>{t("featured")}</h2>
+          <section id="featured" class="pt-12 pb-6">
+            <h2 class="text-2xl font-semibold tracking-wide">
+              {t("featured")}
+            </h2>
             <ul>
-              {featuredPosts.map(({ data, slug }) => (
+              {featuredPosts.map(({ data, id }) => (
                 <Card
-                  href={`/posts/${slug}/`}
+                  href={`/posts/${id}/`}
                   frontmatter={data}
                   secHeading={false}
-                  currentLocale={Astro.currentLocale}
                 />
               ))}
             </ul>
@@ -103,17 +111,18 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
     {
       recentPosts.length > 0 && (
-        <section id="recent-posts">
-          <h2>{t("recentPosts")}</h2>
+        <section id="recent-posts" class="pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">
+            {t("recentPosts")}
+          </h2>
           <ul>
             {recentPosts.map(
-              ({ data, slug }, index) =>
+              ({ data, id }, index) =>
                 index < SITE.postPerIndex && (
                   <Card
-                    href={`/posts/${slug}/`}
+                    href={`/posts/${id}/`}
                     frontmatter={data}
                     secHeading={false}
-                    currentLocale={Astro.currentLocale}
                   />
                 )
             )}
@@ -122,55 +131,23 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       )
     }
 
-    <div class="all-posts-btn-wrapper">
+    <div class="my-8 text-center">
       <LinkButton href="/posts/">
         {t("allPosts")}{" "}
-        <svg xmlns="http://www.w3.org/2000/svg" class="rtl:rotate-180"
-          ><path
-            d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-          ></path>
-        </svg>
+        <IconArrowRight class="inline-block rtl:rotate-180" />
       </LinkButton>
     </div>
   </main>
-
   <Footer />
 </Layout>
 
-<style>
-  /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-6 pt-8;
-  }
-  #hero h1 {
-    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
-  }
-  #hero .rss-link {
-    @apply mb-6;
-  }
-  #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-3 sm:scale-125;
-  }
-  #hero p {
-    @apply my-2;
-  }
-  .social-wrapper {
-    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
-  }
-  .social-links {
-    @apply mb-1 me-2 whitespace-nowrap sm:mb-0;
-  }
-
-  /* ===== Featured & Recent Posts Sections ===== */
-  #featured,
-  #recent-posts {
-    @apply pb-6 pt-12;
-  }
-  #featured h2,
-  #recent-posts h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .all-posts-btn-wrapper {
-    @apply my-8 text-center;
-  }
-</style>
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const element = document.querySelector("#main-content") as HTMLElement;
+    const indexLayout = element?.dataset?.layout;
+    const backUrl = element?.dataset?.backurl;
+    if (indexLayout) {
+      sessionStorage.setItem("backUrl", backUrl ?? "/");
+    }
+  });
+</script>

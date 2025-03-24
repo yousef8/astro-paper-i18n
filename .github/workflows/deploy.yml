@@ -8,7 +8,6 @@ on:
       - "src/**"
       - "public/**"
       - "astro.config.ts"
-      - "tailwind.config.cjs"
       - "tsconfig.json"
       - "eslint.config.mjs"
       - "remark-collapse.d.ts"
@@ -25,13 +24,9 @@ permissions:
 jobs:
   code_quality:
     uses: ./.github/workflows/code-standards-checks.yml
-    with:
-      node-version: "18.x"
 
   unit-tests:
     uses: ./.github/workflows/tests.yml
-    with:
-      node-version: "18.x"
 
   build:
     needs: [code_quality, unit-tests]
@@ -43,7 +38,7 @@ jobs:
       - name: Install, build, and upload site
         uses: withastro/action@v3
         with:
-          node-version: "18.x"
+          node-version: "20"
 
   deploy:
     needs: build

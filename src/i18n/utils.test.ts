@@ -3,8 +3,8 @@ import {
   localeToProfile,
   SUPPORTED_LOCALES,
   type LocaleKey,
-} from "@i18n/config";
-import { UnsupportedLocale } from "@i18n/errors";
+} from "@/i18n/config";
+import { UnsupportedLocale } from "@/i18n/errors";
 import {
   buildPrefix,
   getLocaleInfo,
@@ -13,11 +13,11 @@ import {
   isLocaleKey,
   stripBaseAndLocale,
   translateFor,
-} from "@i18n/utils";
+} from "@/i18n/utils";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@i18n/config", async importOriginal => {
-  const original = await importOriginal<typeof import("@i18n/config")>();
+vi.mock("@/i18n/config", async importOriginal => {
+  const original = await importOriginal<typeof import("@/i18n/config")>();
   return {
     ...original,
     localeToProfile: {

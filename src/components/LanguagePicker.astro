@@ -1,11 +1,11 @@
 ---
-import { SUPPORTED_LOCALES } from "@i18n/config";
+import { SUPPORTED_LOCALES } from "@/i18n/config";
 import {
   translateFor,
   getLocaleInfo,
   stripBaseAndLocale,
   getRelativeLocalePath,
-} from "@i18n/utils";
+} from "@/i18n/utils";
 
 const t = translateFor(Astro.currentLocale);
 
@@ -31,7 +31,7 @@ const unLocalizedPathname = stripBaseAndLocale(
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="icon icon-tabler icons-tabler-outline icon-tabler-language text-skin-base group-hover:text-skin-accent"
+      class="icon icon-tabler icons-tabler-outline icon-tabler-language text-base group-hover:text-accent"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <path d="M4 5h7"></path>
@@ -43,7 +43,7 @@ const unLocalizedPathname = stripBaseAndLocale(
   </button>
   <div
     id="language-picker-items"
-    class="absolute top-full hidden w-auto rounded-md bg-skin-fill shadow-lg"
+    class="absolute top-full hidden w-auto rounded-md bg-background shadow-lg"
     role="menu"
     aria-orientation="vertical"
   >
@@ -51,7 +51,7 @@ const unLocalizedPathname = stripBaseAndLocale(
       SUPPORTED_LOCALES.map(locale => (
         <a
           href={getRelativeLocalePath(locale, unLocalizedPathname)}
-          class="block px-4 py-2 text-sm hover:bg-skin-card hover:text-skin-accent"
+          class="hover:bg-skin-card hover:text-skin-accent block px-4 py-2 text-sm"
           role="menuitem"
         >
           {getLocaleInfo(locale).name}

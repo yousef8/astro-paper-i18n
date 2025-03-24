@@ -1,15 +1,15 @@
 ---
-import Card from "@components/Card";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
-import { SITE } from "@config";
-import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
-import getPostsByGroupCondition from "@utils/getPostsByGroupCondition";
-import { getLocaleInfo, translateFor } from "@i18n/utils";
-import getRelativePath from "@utils/getRelativePath";
-import { getPostsGroupedByLocale } from "@utils/posts";
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@i18n/config";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import { SITE } from "@/config";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { getLocaleInfo, translateFor } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import getPostsByGroupCondition from "@/utils/getPostsByGroupCondition";
+import getRelativePath from "@/utils/getRelativePath";
+import { getPostsGroupedByLocale } from "@/utils/posts";
 
 const redirectTo404 = () => {
   return Astro.redirect(getRelativePath("/404"));
@@ -59,7 +59,7 @@ type MonthKey =
 ---
 
 <Layout title={`${t("archives")} | ${t("site.title")}`}>
-  <Header activeNav="archives" />
+  <Header />
   <Main pageTitle={t("archives")} pageDesc={t("archives.desc")}>
     {
       Object.entries(
@@ -106,12 +106,8 @@ type MonthKey =
                             new Date(a.data.pubDatetime).getTime() / 1000
                           )
                       )
-                      .map(({ data, slug }) => (
-                        <Card
-                          href={`/posts/${slug}`}
-                          frontmatter={data}
-                          currentLocale={Astro.currentLocale}
-                        />
+                      .map(({ data, id }) => (
+                        <Card href={`/posts/${id}`} frontmatter={data} />
                       ))}
                   </ul>
                 </div>
@@ -120,6 +116,5 @@ type MonthKey =
         ))
     }
   </Main>
-
   <Footer />
 </Layout>

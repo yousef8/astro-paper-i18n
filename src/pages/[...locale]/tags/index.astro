@@ -1,13 +1,13 @@
 ---
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
-import Tag from "@components/Tag.astro";
-import getUniqueTags from "@utils/getUniqueTags";
-import { translateFor } from "@i18n/utils";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@i18n/config";
-import { getPostsByLocale } from "@utils/posts";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Layout from "@/layouts/Layout.astro";
+import Tag from "@/components/Tag.astro";
+import getUniqueTags from "@/utils/getUniqueTags";
+import { translateFor } from "@/i18n/utils";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { getPostsByLocale } from "@/utils/posts";
 
 export const getStaticPaths = async () => {
   return SUPPORTED_LOCALES.map(locale => ({
@@ -25,7 +25,7 @@ let tags = getUniqueTags(posts);
 ---
 
 <Layout title={`${t("tags")} | ${t("site.title")}`}>
-  <Header activeNav="tags" />
+  <Header />
   <Main pageTitle={t("tags")} pageDesc={t("tags.desc")}>
     <ul>
       {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} size="lg" />)}
