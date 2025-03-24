@@ -1,8 +1,9 @@
 async function loadGoogleFont(
   font: string,
-  text: string
+  text: string,
+  weight: number
 ): Promise<ArrayBuffer> {
-  const API = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
+  const API = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&text=${encodeURIComponent(text)}`;
 
   const css = await (
     await fetch(API, {
@@ -14,7 +15,7 @@ async function loadGoogleFont(
   ).text();
 
   const resource = css.match(
-    /src: url\((.+)\) format\('(opentype|truetype)'\)/
+    /src: url\((.+?)\) format\('(opentype|truetype)'\)/
   );
 
   if (!resource) throw new Error("Failed to download dynamic font");
@@ -25,8 +26,7 @@ async function loadGoogleFont(
     throw new Error("Failed to download dynamic font. Status: " + res.status);
   }
 
-  const fonts: ArrayBuffer = await res.arrayBuffer();
-  return fonts;
+  return res.arrayBuffer();
 }
 
 async function loadGoogleFonts(
@@ -44,7 +44,7 @@ async function loadGoogleFonts(
     },
     {
       name: fontName.split("+").join(" "),
-      font: `${fontName}:wght@700`,
+      font: `${fontName}`,
       weight: 700,
       style: "bold",
     },
@@ -52,7 +52,7 @@ async function loadGoogleFonts(
 
   const fonts = await Promise.all(
     fontsConfig.map(async ({ name, font, weight, style }) => {
-      const data = await loadGoogleFont(font, text);
+      const data = await loadGoogleFont(font, text, weight);
       return { name, data, weight, style };
     })
   );

@@ -5,8 +5,12 @@ import { slugifyStr } from "@/utils/slugify";
 import { getLocaleInfo } from "@/i18n/utils";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
 import { getPostsGroupedByLocale } from "@/utils/posts";
+import { SITE } from "@/config";
 
 export async function getStaticPaths() {
+  if (!SITE.dynamicOgImage) {
+    return [];
+  }
   const postsByLocale = await getPostsGroupedByLocale({
     draft: false,
     allowedLocales: SUPPORTED_LOCALES,
@@ -32,6 +36,13 @@ export async function getStaticPaths() {
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
 export const GET: APIRoute = async ({ params, props }) => {
+  if (!SITE.dynamicOgImage) {
+    return new Response(null, {
+      status: 404,
+      statusText: "Not found",
+    });
+  }
+
   const { locale = DEFAULT_LOCALE } = params as Params;
 
   return new Response(

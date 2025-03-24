@@ -26,7 +26,7 @@ const {
   title,
   author,
   description,
-  ogImage,
+  ogImage: initOgImage,
   canonicalURL,
   pubDatetime,
   modDatetime,
@@ -36,15 +36,27 @@ const {
 
 const { Content } = await render(post);
 
-const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
-const ogUrl = new URL(
-  ogImageUrl ??
-    getRelativeLocalePath(
-      Astro.currentLocale,
-      `/posts/${slugifyStr(title)}/index.png`
-    ),
-  Astro.url.origin
-).href;
+let ogImageUrl: string | undefined;
+
+// Determine OG image source
+if (typeof initOgImage === "string") {
+  ogImageUrl = initOgImage; // Remote OG image (absolute URL)
+} else if (initOgImage?.src) {
+  ogImageUrl = initOgImage.src; // Local asset
+}
+
+// Use dynamic OG image if enabled and no remote|local ogImage
+if (!ogImageUrl && SITE.dynamicOgImage) {
+  ogImageUrl = getRelativeLocalePath(
+    Astro.currentLocale,
+    `/posts/${slugifyStr(title)}/index.png`
+  );
+}
+
+// Resolve OG image URL (or fallback to SITE.ogImage / default `og.png`)
+const ogImage = ogImageUrl
+  ? new URL(ogImageUrl, Astro.url.origin).href
+  : undefined;
 
 const layoutProps = {
   title: `${title} | ${t("site.title")}`,
@@ -53,7 +65,7 @@ const layoutProps = {
   pubDatetime,
   modDatetime,
   canonicalURL,
-  ogImage: ogUrl,
+  ogImage,
   scrollSmooth: true,
 };
 
