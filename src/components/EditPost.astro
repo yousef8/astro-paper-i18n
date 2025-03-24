@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import IconEdit from "@/assets/icons/IconEdit.svg";
 import { SITE } from "@/config";
+import { translateFor } from "@/i18n/utils";
 
 export interface Props {
   editPost?: CollectionEntry<"blog">["data"]["editPost"];
@@ -18,7 +19,10 @@ const appendFilePath =
 if (appendFilePath && postId) {
   editPostUrl += `/${postId}`;
 }
-const editPostText = editPost?.text ?? SITE?.editPost?.text ?? "Edit";
+
+const t = translateFor(Astro.currentLocale);
+
+const editPostText = editPost?.text ?? t("suggestChanges") ?? "Edit";
 ---
 
 {
