@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.0](https://github.com/yousef8/astro-paper-i18n/compare/v1.0.0...v1.1.0) (2025-03-25)
+
+
+### Features
+
+* sync with AstroPaper 5.0.1 ([#9](https://github.com/yousef8/astro-paper-i18n/issues/9)) ([84753fe](https://github.com/yousef8/astro-paper-i18n/commit/84753fe3005dcb368ff0b63c512e8b13df9203e1))
+* sync with AstroPaper v5.1.0 ([#11](https://github.com/yousef8/astro-paper-i18n/issues/11)) ([ae3e4b1](https://github.com/yousef8/astro-paper-i18n/commit/ae3e4b1eb74413fe62c26d2903e43faeaaa6c543))
+* sync with AstroPaper v5.1.1 ([#12](https://github.com/yousef8/astro-paper-i18n/issues/12)) ([5008f4c](https://github.com/yousef8/astro-paper-i18n/commit/5008f4cbaa277c91761b7f4d0e50e3f6aded5878))
+* sync with AstroPaper v5.2.0 ([#13](https://github.com/yousef8/astro-paper-i18n/issues/13)) ([127e0cd](https://github.com/yousef8/astro-paper-i18n/commit/127e0cdbb3dabd68025a593bab6e96071fb84026))
+* use luxon instead of dayjs for better localization support ([#14](https://github.com/yousef8/astro-paper-i18n/issues/14)) ([bf37f84](https://github.com/yousef8/astro-paper-i18n/commit/bf37f840222f582e49250b38e68d978d256044e6))
+
 ## [1.0.0](https://github.com/yousef8/astro-paper-i18n/compare/v0.4.0...v1.0.0) (2025-03-24)
 
 
