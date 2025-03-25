@@ -8,7 +8,10 @@
 
 </div>
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/AstroPaperI18n/deploy.yml?branch=main) ![GitHub Release](https://img.shields.io/github/v/release/yousef8/AstroPaperI18n)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/astro-paper-i18n/deploy.yml?branch=main)
+![GitHub Release](https://img.shields.io/github/v/release/yousef8/astro-paper-i18n)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3877e14a-0bdc-4e85-bcd4-542f93f860a3/deploy-status)](https://app.netlify.com/sites/astro-paper-i18n/deploys)
 
 This repository is a fork of the [AstroPaper](https://github.com/satnaing/astro-paper) theme, enhanced to support internationalization (i18n).
 
@@ -29,6 +32,7 @@ This Fork does not modify the original theme’s UI; it solely adds i18n support
   - [i18n Features](#i18n-features)
   - [🧪 Testing](#-testing)
 - [Lighthouse Score](#lighthouse-score)
+- [Installation](#installation)
 - [📖 How To Use](#-how-to-use)
 - [🛠️ Configuration](#%EF%B8%8F-configuration)
   - [🔧 Site Configurations](#-site-configurations)
@@ -75,6 +79,16 @@ Click to view full report
     <img width="710" alt="AstroPaper I18n Lighthouse Score" src="AstroPaper-lighthouse-score.svg">
   <a>
 </p>
+
+## Installation
+
+You can fork the repo
+
+Or you can install it using Astrojs cli
+
+```bash
+pnpm create astro@latest --template yousef8/astro-paper-i18n
+```
 
 ## 📖 How To Use
 

@@ -8,7 +8,10 @@
 
 </div>
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/AstroPaperI18n/deploy.yml?branch=main) ![GitHub Release](https://img.shields.io/github/v/release/yousef8/AstroPaperI18n)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yousef8/astro-paper-i18n/deploy.yml?branch=main)
+![GitHub Release](https://img.shields.io/github/v/release/yousef8/astro-paper-i18n)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3877e14a-0bdc-4e85-bcd4-542f93f860a3/deploy-status)](https://app.netlify.com/sites/astro-paper-i18n/deploys)
 
 <div dir="rtl">
 
@@ -29,6 +32,7 @@
   - [دعم الترجمة بواسطة i18n](#دعم-الترجمة-بواسطة-i18n)
   - [🧪 الاختبارات](#-الاختبارات)
 - [نتيجة تقييم لايت هاوس](#نتيجة-تقييم-لايت-هاوس)
+- [التثبيت](#التثبيت)
 - [📖 طريقة الأستخدام](#-طريقة-الأستخدام)
 - [🛠️ الإعدادات](#%EF%B8%8F-الإعدادات)
   - [🔧 إعدادت الموقع](#-إعدادت-الموقع)
@@ -75,6 +79,16 @@
     <img width="710" alt="AstroPaper I18n Lighthouse Score" src="AstroPaper-lighthouse-score.svg">
   <a>
 </p>
+
+## التثبيت
+
+أنشئ تفريعة من المستودع هذا
+
+أو يمكنك تثبيته باستخدام أداة Astrojs عبر سطر الأوامر
+
+```bash
+pnpm create astro@latest --template yousef8/astro-paper-i18n
+  ```
 
 ## 📖 طريقة الأستخدام
 
