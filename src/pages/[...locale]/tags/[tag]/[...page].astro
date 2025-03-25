@@ -54,11 +54,7 @@ const t = translateFor(Astro.currentLocale);
   >
     <h1 slot="title" transition:name={tag}>{`${t("tag")}:${tag}`}</h1>
     <ul>
-      {
-        page.data.map(({ data, id }) => (
-          <Card href={`/posts/${id}`} frontmatter={data} />
-        ))
-      }
+      {page.data.map(data => <Card {...data} />)}
     </ul>
   </Main>
 

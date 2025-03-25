@@ -39,11 +39,7 @@ const t = translateFor(Astro.currentLocale);
   <Header />
   <Main pageTitle={t("posts")} pageDesc={t("posts.desc")}>
     <ul>
-      {
-        page.data.map(({ data, id }) => (
-          <Card href={`/posts/${id}`} frontmatter={data} />
-        ))
-      }
+      {page.data.map(data => <Card {...data} />)}
     </ul>
   </Main>
 

@@ -1,13 +1,16 @@
-import { DEFAULT_LOCALE, type LocaleKey } from "@/i18n/config";
+import { BLOG_PATH } from "@/content.config";
+import { type LocaleKey } from "@/i18n/config";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 type GetPostsOptions = {
   draft?: boolean;
   allowedLocales?: LocaleKey[];
+  blogPath?: string;
 };
 
 type groupPostsByLocaleOptions = {
   allowedLocales?: LocaleKey[];
+  blogPath?: string;
 };
 
 /**
@@ -51,29 +54,20 @@ export const getPostsGroupedByLocale = async ({
 export const getPosts = async ({
   draft = true,
   allowedLocales = [],
-}: GetPostsOptions = {}): Promise<CollectionEntry<"blog">[]> => {
-  const posts: CollectionEntry<"blog">[] = await getCollection(
-    "blog",
-    ({ filePath, data }) => {
-      // TODO: helper function to get locale from post
-      const locale = filePath?.split("/").at(-2) || DEFAULT_LOCALE; // for collections with file loaders this always exist
+  blogPath = BLOG_PATH,
+}: GetPostsOptions = {}): Promise<CollectionEntry<"blog">[]> =>
+  getCollection("blog", ({ filePath, data }) => {
+    // TODO: helper function to get locale from post
+    const locale = filePath
+      ?.replace(blogPath, "")
+      ?.replace(/^\/+/, "")
+      ?.split("/")[0]; // for collections with file loaders this always exist
 
-      return (
-        (draft || !data.draft) &&
-        (!allowedLocales.length || allowedLocales.includes(locale as LocaleKey))
-      );
-    }
-  );
-
-  return posts.map(post => {
-    const postCopy = { ...post };
-
-    const slugParts = post.id.split("/");
-    postCopy.id = slugParts.length ? slugParts[slugParts.length - 1] : post.id;
-
-    return postCopy;
+    return (
+      (draft || !data.draft) &&
+      (!allowedLocales.length || allowedLocales.includes(locale as LocaleKey))
+    );
   });
-};
 
 /**
  * Groups an array of blog posts by their locale.
@@ -85,11 +79,16 @@ export const getPosts = async ({
  */
 export const groupPostsByLocale = (
   posts: CollectionEntry<"blog">[],
-  { allowedLocales = [] }: groupPostsByLocaleOptions = {}
+  { allowedLocales = [], blogPath = BLOG_PATH }: groupPostsByLocaleOptions = {}
 ) => {
   const postsByLocale = posts.reduce(
     (acc, post) => {
-      const locale = post.filePath?.split("/").at(-2) || DEFAULT_LOCALE;
+      const locale =
+        post.filePath
+          ?.replace(blogPath, "")
+          ?.replace(/^\/+/, "")
+          ?.split("/")[0] || ""; // for collections with file loaders this always exist
+
       return {
         ...acc,
         [locale]: [...(acc[locale] || []), post],
