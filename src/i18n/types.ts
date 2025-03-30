@@ -1,6 +1,11 @@
 export interface I18nStrings {
   "site.title": string;
   "site.desc": string;
+  "hero.title": string;
+  "hero.body": string;
+  "hero.beforeReadme": string;
+  "hero.readme": string;
+  "hero.afterReadme": string;
   copy: string;
   copied: string;
   by: string;
