@@ -12,13 +12,18 @@ import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
-import { getRelativeLocalePath, translateFor } from "@/i18n/utils";
+import {
+  getRelativeLocalePath,
+  getSlugWithoutLocale,
+  translateFor,
+} from "@/i18n/utils";
 import { SITE } from "@/config";
 
 export interface Props {
   post: CollectionEntry<"blog">;
   posts: CollectionEntry<"blog">[];
 }
+
 const t = translateFor(Astro.currentLocale);
 
 const { post, posts } = Astro.props;
@@ -143,7 +148,7 @@ const nextPost =
           <a
             href={getRelativeLocalePath(
               Astro.currentLocale,
-              `/posts/${prevPost.slug}`
+              `/posts/${getSlugWithoutLocale(prevPost.slug)}`
             )}
             class="flex w-full gap-1 hover:opacity-75"
           >
@@ -160,7 +165,7 @@ const nextPost =
           <a
             href={getRelativeLocalePath(
               Astro.currentLocale,
-              `/posts/${nextPost.slug}`
+              `/posts/${getSlugWithoutLocale(nextPost.slug)}`
             )}
             class="flex w-full justify-end gap-1 text-right hover:opacity-75 sm:col-start-2"
           >

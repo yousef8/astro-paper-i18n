@@ -100,3 +100,14 @@ export function buildPrefix(
 
   return new URL(baseWithLocale, "http://foo.com").pathname;
 }
+
+export function getSlugWithoutLocale(slug: string) {
+  const slugParts = slug.split("/");
+  if (
+    slugParts.length > 1 &&
+    SUPPORTED_LOCALES.includes(slugParts[0] as LocaleKey)
+  ) {
+    return slugParts.slice(1).join("/");
+  }
+  return slug;
+}

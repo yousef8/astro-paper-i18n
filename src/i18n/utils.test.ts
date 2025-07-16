@@ -10,6 +10,7 @@ import {
   getLocaleInfo,
   getLocaleMsgs,
   getRelativeLocalePath,
+  getSlugWithoutLocale,
   isLocaleKey,
   stripBaseAndLocale,
   translateFor,
@@ -148,6 +149,32 @@ describe("getRelativeLocalePath", () => {
 
   it("should return `/` if empty path `` supplied for default locale", () => {
     expect(getRelativeLocalePath(DEFAULT_LOCALE, "")).toBe("/");
+  });
+});
+
+describe("getSlugWithoutLocale", () => {
+  it("should remove the locale prefix from the slug", () => {
+    expect(getSlugWithoutLocale("ja/my-post")).toBe("my-post");
+  });
+
+  it("should return the original slug if no locale prefix is present", () => {
+    expect(getSlugWithoutLocale("my-post")).toBe("my-post");
+  });
+
+  it("should handle slugs with multiple slashes", () => {
+    expect(getSlugWithoutLocale("ja/category/my-post")).toBe(
+      "category/my-post"
+    );
+  });
+
+  it("should not remove parts of the slug that look like a locale", () => {
+    expect(getSlugWithoutLocale("not-a-locale/my-post")).toBe(
+      "not-a-locale/my-post"
+    );
+  });
+
+  it("should return the original slug for the default locale", () => {
+    expect(getSlugWithoutLocale("es/my-post")).toBe("my-post");
   });
 });
 
