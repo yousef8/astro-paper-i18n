@@ -15,7 +15,8 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:watch": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "type-check": "astro check"
   },
   "volta": {
     "node": "20.19.0",
