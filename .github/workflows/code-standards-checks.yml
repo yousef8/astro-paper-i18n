@@ -35,13 +35,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: 🔎 Lint code
-        run: pnpm run lint
+        run: pnpm lint
 
       - name: 📝 Checking code format
-        run: pnpm run format:check
+        run: pnpm format:check
 
       - name: 💪 Type Checking
-        run: pnpm dlx astro check
+        run: pnpm  type-check
 
       - name: 🚀 Build the project
         if: ${{ inputs.run-build }}
