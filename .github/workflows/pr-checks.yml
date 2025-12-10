@@ -1,4 +1,4 @@
-name: Code Standards & Tests & Build
+name: PR Checks
 
 on:
   pull_request:
@@ -19,12 +19,9 @@ on:
 
 jobs:
   code_quality:
-    strategy:
-      matrix:
-        node-versions: [20]
     uses: ./.github/workflows/code-standards-checks.yml
     with:
-      node-version: ${{ matrix.node-versions }}
+      node-version: "20"
       run-build: true
 
   unit-tests:
