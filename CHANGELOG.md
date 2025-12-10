@@ -17,6 +17,10 @@
 * fix rss icon orientation ([eba3cc9](https://github.com/yousef8/astro-paper-i18n/commit/eba3cc934c9d855b4d12d5bd9046fad0e19b5e78))
 * **i18n:** correct next/prev post URL for non-default locales ([#18](https://github.com/yousef8/astro-paper-i18n/issues/18)) ([7d21bf1](https://github.com/yousef8/astro-paper-i18n/commit/7d21bf1990f64576dc34b632580b650732cd554a))
 
+### Thanks
+
+* Thanks to [@bigmasonwang](https://github.com/bigmasonwang) for the first contribution!
+
 ## [1.1.0](https://github.com/yousef8/astro-paper-i18n/compare/v1.0.0...v1.1.0) (2025-03-25)
 
 
