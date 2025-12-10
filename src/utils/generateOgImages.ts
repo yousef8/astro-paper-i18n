@@ -4,10 +4,10 @@ import postOgImage from "./og-templates/post";
 import siteOgImage from "./og-templates/site";
 import type { LocaleProfile, LocaleKey } from "@/i18n/config";
 
-function svgBufferToPngBuffer(svg: string) {
+function svgBufferToPngBuffer(svg: string): Uint8Array<ArrayBuffer> {
   const resvg = new Resvg(svg);
   const pngData = resvg.render();
-  return pngData.asPng();
+  return new Uint8Array(pngData.asPng());
 }
 
 export async function generateOgImageForPost(
