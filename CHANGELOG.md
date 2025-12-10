@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.0](https://github.com/yousef8/astro-paper-i18n/compare/v1.1.0...v1.2.0) (2025-12-10)
+
+
+### Features
+
+* add Chinese translation ([1618ed1](https://github.com/yousef8/astro-paper-i18n/commit/1618ed13f48c900a1c7c581dff3eb34ee0a8b362))
+* sync AstroPaper v5.3.0 ([#19](https://github.com/yousef8/astro-paper-i18n/issues/19)) ([c3325df](https://github.com/yousef8/astro-paper-i18n/commit/c3325df9720b0387d1c1a2d68c3c0d05dbaac90f))
+* translate landing page hero section ([2c3bc09](https://github.com/yousef8/astro-paper-i18n/commit/2c3bc09749e51628f67ae5dbbbb04b5069ff4a9b))
+* update heading recognized by remarkToc for arabic articles ([4244f3f](https://github.com/yousef8/astro-paper-i18n/commit/4244f3f3556674202160433bca031c98297b9951))
+
+
+### Bug Fixes
+
+* **ci:** use correct command for type check and extract to script ([#20](https://github.com/yousef8/astro-paper-i18n/issues/20)) ([61058e5](https://github.com/yousef8/astro-paper-i18n/commit/61058e59131b4f0059e6bef32774ff12f8439705))
+* fix rss icon orientation ([eba3cc9](https://github.com/yousef8/astro-paper-i18n/commit/eba3cc934c9d855b4d12d5bd9046fad0e19b5e78))
+* **i18n:** correct next/prev post URL for non-default locales ([#18](https://github.com/yousef8/astro-paper-i18n/issues/18)) ([7d21bf1](https://github.com/yousef8/astro-paper-i18n/commit/7d21bf1990f64576dc34b632580b650732cd554a))
+
 ## [1.1.0](https://github.com/yousef8/astro-paper-i18n/compare/v1.0.0...v1.1.0) (2025-03-25)
 
 
