@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/yousef8/astro-paper-i18n/compare/v1.2.0...v1.2.1) (2025-12-12)
+
+
+### Bug Fixes
+
+* **deps:** update vitest and coverage-v8 to use tilda range ([482d94d](https://github.com/yousef8/astro-paper-i18n/commit/482d94d091977a288daeece60d0b6fbc06c9d408))
+
 ## [1.2.0](https://github.com/yousef8/astro-paper-i18n/compare/v1.1.0...v1.2.0) (2025-12-10)
 
 
